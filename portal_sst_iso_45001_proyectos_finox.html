@@ -1,0 +1,2249 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal SGSST ISO 45001 | PROYECTOS FINOX E.I.R.L.</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0b1120',
+                            navy: '#0f172a',
+                            slate: '#1e293b',
+                            blue: '#0284c7',
+                            cyan: '#06b6d4',
+                            orange: '#ea580c',
+                            amber: '#f59e0b',
+                            red: '#ef4444',
+                            green: '#10b981'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Rajdhani', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF & jsPDF-AutoTable CDNs for Direct PDF Downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #090d16; color: #f1f5f9; }
+        .font-display { font-family: 'Rajdhani', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0284c7; border-radius: 4px; }
+        .glass-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .pulse-critical { animation: pulseRed 1.8s infinite; }
+        @keyframes pulseRed { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); } }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col lg:flex-row antialiased custom-scrollbar">
+
+    <!-- MOBILE HEADER & HAMBURGER -->
+    <header class="lg:hidden sticky top-0 z-50 glass-panel border-b border-slate-800 bg-slate-900/95 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('inicio')">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-orange-600 to-sky-600 flex items-center justify-center text-white font-bold text-lg font-display">
+                <i class="fa-solid fa-industry"></i>
+            </div>
+            <div>
+                <span class="font-display font-bold text-lg tracking-wider text-white">PROYECTOS FINOX</span>
+                <span class="text-[10px] block text-slate-400 -mt-1">RUC: 20607750211</span>
+            </div>
+        </div>
+        <button onclick="toggleMobileNav()" class="text-slate-300 p-2 text-xl focus:outline-none">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- MOBILE MENU DRAWER -->
+    <div id="mobile-nav" class="hidden lg:hidden fixed inset-x-0 top-14 z-40 bg-slate-900 border-b border-slate-800 px-4 py-4 space-y-1 text-xs">
+        <input type="text" id="mobile-quick-search" onkeyup="quickModuleSearch(this.value)" placeholder="🔍 Buscar módulo..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 mb-3">
+        <button onclick="switchTab('inicio')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-sky-400 bg-slate-800 font-medium">1. Inicio & Procesos</button>
+        <button onclick="switchTab('politica')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-slate-300 hover:bg-slate-800">2. Política & Organización SST</button>
+        <button onclick="switchTab('riesgos')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-slate-300 hover:bg-slate-800">3. Riesgos Matriz IPERC & Mapa</button>
+        <button onclick="switchTab('planificacion')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-slate-300 hover:bg-slate-800">4. Planificación & Programa 2027</button>
+        <button onclick="switchTab('procedimientos')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-slate-300 hover:bg-slate-800">5. Procedimientos & Descargas PDF</button>
+        <button onclick="switchTab('capacitacion')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-slate-300 hover:bg-slate-800">6. Capacitación & Registros</button>
+        <button onclick="switchTab('inspecciones')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-slate-300 hover:bg-slate-800">7. Inspecciones SST 5S</button>
+        <button onclick="switchTab('indicadores')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-slate-300 hover:bg-slate-800">8. Indicadores & HHT</button>
+        <button onclick="switchTab('reporte')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-amber-400 hover:bg-slate-800">9. Reporte SST en Vivo</button>
+        <button onclick="switchTab('mejora')" class="mobile-tab-btn w-full text-left px-3 py-2 rounded text-slate-300 hover:bg-slate-800">10. Mejora Continua (Antes / Después)</button>
+    </div>
+
+    <!-- DESKTOP FIXED SIDEBAR (10 MODULES EXACT) -->
+    <aside class="hidden lg:flex flex-col w-72 bg-slate-900/90 border-r border-slate-800 shrink-0 sticky top-0 h-screen overflow-y-auto custom-scrollbar">
+        <!-- Sidebar Brand Header -->
+        <div class="p-5 border-b border-slate-800 space-y-3">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-600 via-amber-500 to-sky-600 flex items-center justify-center text-white font-bold text-xl font-display shadow-lg shadow-orange-600/20">
+                    <i class="fa-solid fa-industry"></i>
+                </div>
+                <div>
+                    <span class="font-display font-bold text-xl tracking-wider text-white block leading-tight">FINOX</span>
+                    <span class="text-[11px] text-orange-400 font-mono font-semibold">E.I.R.L.</span>
+                </div>
+            </div>
+            <div class="text-[11px] text-slate-400 border-t border-slate-800/80 pt-2 space-y-0.5">
+                <div><strong>RUC:</strong> 20607750211</div>
+                <div><strong>Sede:</strong> Chontapaccha Alta, Cajamarca</div>
+                <div class="text-emerald-400 font-mono text-[10px] pt-1 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> ISO 45001:2018 / Ley 29783
+                </div>
+            </div>
+            <!-- Quick Search Input -->
+            <div class="relative pt-1">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-slate-500 text-xs"></i>
+                <input type="text" id="sidebar-search" onkeyup="quickModuleSearch(this.value)" placeholder="Buscar módulo o tema..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500 transition">
+            </div>
+        </div>
+
+        <!-- 10 Navigation Items -->
+        <nav class="flex-1 px-3 py-4 space-y-1 text-xs font-medium">
+            <button onclick="switchTab('inicio')" id="btn-tab-inicio" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sky-400 bg-slate-800/90 border border-sky-500/30 transition">
+                <i class="fa-solid fa-house w-4 text-center text-sky-400"></i>
+                <span class="truncate">1. Inicio & Procesos</span>
+            </button>
+            <button onclick="switchTab('politica')" id="btn-tab-politica" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-sky-400 hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-file-contract w-4 text-center"></i>
+                <span class="truncate">2. Política & Org. SST</span>
+            </button>
+            <button onclick="switchTab('riesgos')" id="btn-tab-riesgos" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-sky-400 hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-triangle-exclamation w-4 text-center text-amber-500"></i>
+                <span class="truncate">3. Riesgos IPERC & Mapa</span>
+            </button>
+            <button onclick="switchTab('planificacion')" id="btn-tab-planificacion" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-sky-400 hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-calendar-days w-4 text-center"></i>
+                <span class="truncate">4. Planificación 2027</span>
+            </button>
+            <button onclick="switchTab('procedimientos')" id="btn-tab-procedimientos" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-sky-400 hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-file-pdf w-4 text-center text-orange-500"></i>
+                <span class="truncate">5. Procedimientos & PDF</span>
+            </button>
+            <button onclick="switchTab('capacitacion')" id="btn-tab-capacitacion" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-sky-400 hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-chalkboard-user w-4 text-center"></i>
+                <span class="truncate">6. Capacitación & Registros</span>
+            </button>
+            <button onclick="switchTab('inspecciones')" id="btn-tab-inspecciones" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-sky-400 hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-clipboard-check w-4 text-center"></i>
+                <span class="truncate">7. Inspecciones SST 5S</span>
+            </button>
+            <button onclick="switchTab('indicadores')" id="btn-tab-indicadores" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-sky-400 hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-chart-line w-4 text-center"></i>
+                <span class="truncate">8. Indicadores & HHT</span>
+            </button>
+            <button onclick="switchTab('reporte')" id="btn-tab-reporte" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-amber-400 hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-bullhorn w-4 text-center text-amber-400"></i>
+                <span class="truncate">9. Reporte SST en Vivo</span>
+            </button>
+            <button onclick="switchTab('mejora')" id="btn-tab-mejora" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-sky-400 hover:bg-slate-800/50 transition">
+                <i class="fa-solid fa-arrow-up-right-dots w-4 text-center text-emerald-400"></i>
+                <span class="truncate">10. Mejora Continua</span>
+            </button>
+        </nav>
+
+        <!-- Sidebar Footer Credits UPN -->
+        <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 space-y-2">
+            <button onclick="openModal('modal-upn-info')" class="w-full bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 py-2 rounded-xl transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-graduation-cap text-orange-400"></i>
+                <span>Créditos UPN Cajamarca</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8 overflow-x-hidden">
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 1: INICIO Y PROCESOS -->
+        <!-- ========================================== -->
+        <section id="tab-inicio" class="tab-content space-y-8">
+            
+            <!-- Hero Banner -->
+            <div class="relative rounded-3xl overflow-hidden glass-panel border border-slate-800 p-6 sm:p-8 lg:p-10 bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-950">
+                <div class="relative z-10 space-y-4 max-w-4xl">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-semibold uppercase tracking-widest">
+                        <i class="fa-solid fa-shield-halved"></i> Sistema de Gestión ISO 45001:2018 & Ley N° 29783
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-white leading-tight">
+                        PROYECTOS FINOX <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-400 to-sky-400">E.I.R.L.</span>
+                    </h1>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Empresa dedicada a la <strong>fabricación y montaje de estructuras metalmecánicas</strong> y <strong>oleohidráulica industrial</strong>. Sede en Jr. José Villanueva Mza. E Lote 1, Chontapaccha Alta, Cajamarca - Perú.
+                    </p>
+                    
+                    <!-- Mensaje Central de Prevención -->
+                    <div class="p-4 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-2xl shrink-0">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-orange-400 font-mono">MENSAJE CENTRAL PREVENTIVO SST</span>
+                            <div class="text-lg font-bold font-display text-white">"Cero Accidentes Ocupacionales en Soldeo, Corte y Montaje Metalmecánico"</div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Action Buttons -->
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="switchTab('riesgos')" class="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-semibold px-5 py-2.5 rounded-xl transition shadow-lg shadow-orange-600/20 flex items-center gap-2 text-xs">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Ver Matriz IPERC (10 Peligros Excel)
+                        </button>
+                        <button onclick="switchTab('procedimientos')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium px-5 py-2.5 rounded-xl transition flex items-center gap-2 text-xs">
+                            <i class="fa-solid fa-file-pdf text-orange-400"></i> Descargar Documentos PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen Tarjetas KPI -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-panel p-4 rounded-2xl border border-slate-800 space-y-1">
+                    <span class="text-xs text-slate-400 font-mono">TRABAJADORES</span>
+                    <div class="text-2xl font-bold font-display text-white">6 Operativos</div>
+                    <span class="text-[10px] text-sky-400">100% Capacitados</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border border-slate-800 space-y-1">
+                    <span class="text-xs text-slate-400 font-mono">ÍNDICE FRECUENCIA</span>
+                    <div class="text-2xl font-bold font-display text-emerald-400">IF = 0.00</div>
+                    <span class="text-[10px] text-emerald-400">Meta: 0.00</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border border-slate-800 space-y-1">
+                    <span class="text-xs text-slate-400 font-mono">PELIGROS EN EXCEL</span>
+                    <div class="text-2xl font-bold font-display text-amber-400">10 Identificados</div>
+                    <span class="text-[10px] text-rose-400">2 Críticos (P×S=150)</span>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border border-slate-800 space-y-1">
+                    <span class="text-xs text-slate-400 font-mono">PRESUPUESTO 2027</span>
+                    <div class="text-2xl font-bold font-display text-orange-400">S/ 6,000.00</div>
+                    <span class="text-[10px] text-slate-400">10 Partidas Aprobadas</span>
+                </div>
+            </div>
+
+            <!-- Mapa de Procesos FINOX-GG-MP01.01 & Diagnóstico FODA -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Mapa de Procesos -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="text-lg font-bold font-display text-white">Mapa de Procesos (FINOX-GG-MP01.01)</h3>
+                        <span class="text-xs text-sky-400 font-mono">ISO 45001 Cláusula 4.4</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                            <div class="font-bold text-sky-400 mb-1">PROCESOS ESTRATÉGICOS</div>
+                            <div class="text-slate-300">Gestión Gerencial • Sistema Integrado de Gestión (SIG / SSOMA)</div>
+                        </div>
+                        
+                        <div class="p-3.5 rounded-xl bg-slate-900 border border-orange-500/40 space-y-2">
+                            <div class="font-bold text-white flex items-center justify-between">
+                                <span>PROCESOS MISIONALES (OPERATIVOS)</span>
+                                <i class="fa-solid fa-gears text-orange-400"></i>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-slate-300 text-[11px]">
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">1. Recepción de planos</div>
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">2. Requerimiento materiales</div>
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">3. Recepción/verificación</div>
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">4. Habilitado de piezas</div>
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">5. Armado de estructuras</div>
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">6. Soldeo multiproceso 6G</div>
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">7. Recubrimiento superficial</div>
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">8. Verificación de calidad</div>
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">9. Embalado y entrega</div>
+                                <div class="p-1.5 rounded bg-slate-800/90 border border-slate-700">10. Evaluación cliente</div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                            <div class="font-bold text-amber-400 mb-1">PROCESOS DE APOYO Y APOYO EXTERNO</div>
+                            <div class="text-slate-300">Logística • Administración y RR.HH. • Operaciones • SSOMA • Médico Ocupacional • Área Legal</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen Diagnóstico FODA -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="text-lg font-bold font-display text-white">Diagnóstico FODA de SST</h3>
+                        <span class="text-xs text-slate-400">Informe FINOX-SSOMA-IN03.01</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 space-y-1">
+                            <div class="font-bold text-emerald-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-shield-check"></i> FORTALEZAS (F)
+                            </div>
+                            <ul class="text-slate-300 space-y-1 text-[11px] list-disc list-inside">
+                                <li>Matriz IPERC línea base ejecutada (10 peligros).</li>
+                                <li>Planificación de capacitaciones al 100%.</li>
+                                <li>Política SIG firmada por Gerencia General.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-sky-950/40 border border-sky-500/30 space-y-1">
+                            <div class="font-bold text-sky-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-lightbulb"></i> OPORTUNIDADES (O)
+                            </div>
+                            <ul class="text-slate-300 space-y-1 text-[11px] list-disc list-inside">
+                                <li>Actualización legal en SST (Ley 29783).</li>
+                                <li>Digitalización de registros y PDFs.</li>
+                                <li>Metodología 5S en taller y oficinas.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/30 space-y-1">
+                            <div class="font-bold text-amber-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-triangle-exclamation"></i> DEBILIDADES (D)
+                            </div>
+                            <ul class="text-slate-300 space-y-1 text-[11px] list-disc list-inside">
+                                <li>Deficiente control documental previo.</li>
+                                <li>Formalización del Supervisor SST.</li>
+                                <li>Presupuesto no asignado por escrito previo.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/30 space-y-1">
+                            <div class="font-bold text-rose-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-skull-crossbones"></i> AMENAZAS (A)
+                            </div>
+                            <ul class="text-slate-300 space-y-1 text-[11px] list-disc list-inside">
+                                <li>Riesgo de incendios por chispas de corte.</li>
+                                <li>Exposición a humos metálicos y plomo.</li>
+                                <li>Fiscalización SUNAFIL e inspecciones.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 2: POLÍTICA Y ORGANIZACIÓN SST -->
+        <!-- ========================================== -->
+        <section id="tab-politica" class="tab-content hidden space-y-8">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs text-sky-400 font-mono">FINOX-SIG-POL-01 | Aprobada 23 de Enero de 2025</span>
+                    <h2 class="text-2xl font-bold font-display text-white">Política, Objetivos y Organización SST</h2>
+                </div>
+            </div>
+
+            <!-- Política SIG -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <h3 class="text-lg font-bold font-display text-white">Política del Sistema Integrado de Gestión (SIG)</h3>
+                        <p class="text-xs text-slate-400">Publicada y firmada en Cajamarca por la Gerencia General</p>
+                    </div>
+                    <span class="text-xs px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-signature"></i> Firma: Wilmer Herrera Bardales
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+                        <strong class="text-orange-400 block font-display text-sm">1. Cultura de Prevención</strong>
+                        <p class="text-slate-300">Programa permanente de capacitaciones en calidad, riesgos de soldadura y cuidado ambiental.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+                        <strong class="text-orange-400 block font-display text-sm">2. Trabajo Seguro y Saludable</strong>
+                        <p class="text-slate-300">Prevención de lesiones y enfermedades ocupacionales eliminando peligros y reduciendo riesgos.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+                        <strong class="text-orange-400 block font-display text-sm">3. Cumplimiento Legal</strong>
+                        <p class="text-slate-300">Cumplimiento estricto de la Ley 29783, D.S. 005-2012-TR y norma internacional ISO 45001:2018.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Objetivos OG1-OG3 & OE1-OE5 -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-6">
+                <h3 class="text-lg font-bold font-display text-white">Objetivos del Plan Anual de SST 2027</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-4 rounded-xl bg-sky-950/40 border border-sky-500/40 space-y-2">
+                        <span class="text-sky-400 font-bold font-mono">OBJETIVO GENERAL 1 (OG1)</span>
+                        <p class="text-slate-200 font-medium">Fortalecer la gestión preventiva de PROYECTOS FINOX durante el 2027 mediante la mejora continua del SGSST.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-sky-950/40 border border-sky-500/40 space-y-2">
+                        <span class="text-sky-400 font-bold font-mono">OBJETIVO GENERAL 2 (OG2)</span>
+                        <p class="text-slate-200 font-medium">Prevenir accidentes y enfermedades identificando peligros y aplicando controles en fabricación y montaje.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-sky-950/40 border border-sky-500/40 space-y-2">
+                        <span class="text-sky-400 font-bold font-mono">OBJETIVO GENERAL 3 (OG3)</span>
+                        <p class="text-slate-200 font-medium">Promover condiciones seguras fortaleciendo la participación, capacitación y compromiso de los trabajadores.</p>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-800 pt-4">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Objetivos Específicos (OE1 - OE5)</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 text-xs">
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                            <strong class="text-amber-400 block">OE1. Riesgos</strong>
+                            <p class="text-slate-400 text-[11px] mt-1">Mejorar la evaluación de riesgos en soldeo, corte y esmerilado.</p>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                            <strong class="text-amber-400 block">OE2. Capacitación</strong>
+                            <p class="text-slate-400 text-[11px] mt-1">Fortalecer competencias mediante inducciones y charlas de 5 min.</p>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                            <strong class="text-amber-400 block">OE3. Controles</strong>
+                            <p class="text-slate-400 text-[11px] mt-1">Mejorar condiciones operativas e inspecciones de PETS/PETAR.</p>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                            <strong class="text-amber-400 block">OE4. Documental</strong>
+                            <p class="text-slate-400 text-[11px] mt-1">Controlar la información documentada y auditorías internas.</p>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                            <strong class="text-amber-400 block">OE5. Salud</strong>
+                            <p class="text-slate-400 text-[11px] mt-1">Vigilancia médica ocupacional y seguimiento a los EMOs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Organigrama Interactivo & MOF -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 lg:col-span-2 space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="text-lg font-bold font-display text-white">Organigrama Institucional (FINOX-GG-OR01.01)</h3>
+                        <span class="text-xs text-sky-400 font-mono">Clic para ver funciones MOF</span>
+                    </div>
+
+                    <div class="flex flex-col items-center space-y-6 py-2">
+                        <div onclick="showMOFRole('gerente')" class="cursor-pointer bg-slate-900 hover:bg-slate-800 border-2 border-sky-500/80 p-4 rounded-xl text-center w-72 shadow-lg transition">
+                            <span class="text-[10px] font-mono text-sky-400 uppercase">Alta Dirección</span>
+                            <div class="font-bold text-white font-display text-lg">Wilmer Herrera Bardales</div>
+                            <div class="text-xs text-slate-400">Gerente General</div>
+                        </div>
+
+                        <div class="w-0.5 h-6 bg-slate-700"></div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-xl">
+                            <div onclick="showMOFRole('operativo')" class="cursor-pointer bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-orange-500 p-4 rounded-xl text-center transition">
+                                <span class="text-[10px] font-mono text-orange-400 uppercase">Operaciones</span>
+                                <div class="font-bold text-slate-200 font-display text-base">Franco Guevara Alvarado</div>
+                                <div class="text-xs text-slate-400">Supervisor Operativo</div>
+                            </div>
+
+                            <div onclick="showMOFRole('ssoma')" class="cursor-pointer bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-emerald-500 p-4 rounded-xl text-center transition">
+                                <span class="text-[10px] font-mono text-emerald-400 uppercase">SSOMA</span>
+                                <div class="font-bold text-slate-200 font-display text-base">Ing. Luz Portal Huamán</div>
+                                <div class="text-xs text-slate-400">Supervisor SSOMA (CIP 266004)</div>
+                            </div>
+                        </div>
+
+                        <div class="w-0.5 h-6 bg-slate-700"></div>
+
+                        <div onclick="showMOFRole('personal')" class="cursor-pointer bg-slate-900/90 hover:bg-slate-800 border border-dashed border-slate-600 p-4 rounded-xl text-center w-full max-w-md transition">
+                            <span class="text-[10px] font-mono text-amber-400 uppercase block mb-1">Personal Operativo de Taller (6 Trabajadores)</span>
+                            <div class="flex flex-wrap justify-center gap-1.5 text-xs text-slate-300">
+                                <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">Soldador Multiproceso 6G</span>
+                                <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">Armador Calderero</span>
+                                <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">Oficial Soldador</span>
+                                <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">Ayudante</span>
+                                <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">Pintor</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MOF Dynamic Functions Display -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <h3 class="text-lg font-bold font-display text-white border-b border-slate-800 pb-3">Funciones MOF (FINOX-MN-01)</h3>
+                    <div id="mof-dynamic-box" class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2 text-xs">
+                        <strong class="text-sky-400 block font-display text-sm">SELECCIONA UN CARGO DEL ORGANIGRAMA</strong>
+                        <p class="text-slate-400">Haz clic sobre cualquier tarjeta del organigrama para consultar las responsabilidades específicas de SST según el Manual de Organización y Funciones.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 3: RIESGOS (EXCEL IPERC, REBA & MAPA) -->
+        <!-- ========================================== -->
+        <section id="tab-riesgos" class="tab-content hidden space-y-8">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs text-orange-400 font-mono">Código: FINOX-SSOMA-MT03.01 | Versión 01 | Fecha: 16/09/2026</span>
+                    <h2 class="text-2xl font-bold font-display text-white">Matriz IPERC del Proceso de Soldeo (Extraída del Excel)</h2>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="downloadDocumentPDF('IPERC')" class="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 shadow">
+                        <i class="fa-solid fa-file-pdf"></i> Descargar IPERC en PDF
+                    </button>
+                    <button onclick="openModal('modal-add-iperc')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 border border-slate-700">
+                        <i class="fa-solid fa-plus"></i> Agregar Nuevo Riesgo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calculadora Dinámica P x S -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-6">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-bold font-display text-white flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-sky-400"></i> Simulador y Calculadora de Riesgo (Probabilidad × Severidad)
+                    </h3>
+                    <span class="text-xs text-slate-400 font-mono">Metodología Matriz Excel</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">PROBABILIDAD (P: 1 a 5)</label>
+                            <select id="calc-prob" onchange="calculateIPERCScore()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                                <option value="1">1 - Improbable</option>
+                                <option value="2">2 - Poco Probable</option>
+                                <option value="3" selected>3 - Probable</option>
+                                <option value="4">4 - Muy Probable</option>
+                                <option value="5">5 - Inevitable / Inminente</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">SEVERIDAD (S: 2, 5, 10, 20, 50)</label>
+                            <select id="calc-sev" onchange="calculateIPERCScore()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                                <option value="2">2 - Menor (Cortes leves / Fatiga)</option>
+                                <option value="5">5 - Moderada (Posturas / Luz intensa)</option>
+                                <option value="10">10 - Mayor (Chispas / Inhalación humos)</option>
+                                <option value="20">20 - Incapacitante (Contacto disco)</option>
+                                <option value="50" selected>50 - Catastrófica (Electrocución / Muerte)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center p-6 rounded-xl bg-slate-900/90 border border-slate-800 text-center space-y-2">
+                        <span class="text-xs text-slate-400 uppercase font-mono">P × S Obtenido</span>
+                        <div id="calc-score" class="text-5xl font-bold font-display text-rose-500 pulse-critical">150</div>
+                        <div id="calc-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-rose-500/20 text-rose-400 border border-rose-500/40">
+                            RIESGO CRÍTICO (150)
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2 text-xs">
+                        <div class="font-bold text-sky-400 uppercase font-display text-sm">Control Obligatorio Recomendado</div>
+                        <p id="calc-action" class="text-slate-300">Inspección estricta de aislamiento de cables, puesta a tierra, desconexión rápida y permiso LOTO antes de operar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla IPERC Completa Extraída del Excel (10 Peligros) -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold font-display text-white">Matriz IPERC Línea Base - Taller de Soldeo (10 Peligros Excel)</h3>
+                        <p class="text-xs text-slate-400">Peligros, riesgos, evaluación P×S y controles exactos requeridos</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2 text-xs">
+                        <select id="filter-iperc-act" onchange="filterIPERC()" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-300">
+                            <option value="ALL">Todas las Actividades</option>
+                            <option value="Corte de estructuras metálicas">Actividad 1: Corte de estructuras</option>
+                            <option value="Unión de estructuras metálicas mediante soldadura">Actividad 2: Soldadura de estructuras</option>
+                        </select>
+                        <select id="filter-iperc-level" onchange="filterIPERC()" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-300">
+                            <option value="ALL">Todos los Niveles</option>
+                            <option value="CRÍTICO">Crítico (P×S ≥ 150)</option>
+                            <option value="ALTO">Alto (P×S 40-60)</option>
+                            <option value="MEDIO">Medio (P×S 10-20)</option>
+                            <option value="BAJO">Bajo (P×S 8)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-slate-400 border-b border-slate-800 font-mono text-[11px]">
+                                <th class="p-3">N°</th>
+                                <th class="p-3">Actividad</th>
+                                <th class="p-3">Peligro Identificado</th>
+                                <th class="p-3">Riesgo / Consecuencia</th>
+                                <th class="p-3 text-center">P</th>
+                                <th class="p-3 text-center">S</th>
+                                <th class="p-3 text-center">P×S</th>
+                                <th class="p-3">Nivel</th>
+                                <th class="p-3">Medidas de Control</th>
+                                <th class="p-3">Doc / Resp.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="iperc-table-body" class="divide-y divide-slate-800 text-slate-300">
+                            <!-- JS Populates 10 items from Excel -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Resumen de Evaluación Ergonómica REBA & Mapa SVG -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- REBA Ergonómico Card -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4 lg:col-span-1">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="text-lg font-bold font-display text-white">Evaluación Ergonómica REBA</h3>
+                        <span class="text-xs text-amber-400 font-mono">FINOX-SSOMA-IN03.02</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+                            <span class="text-slate-400 block text-[10px] uppercase font-mono">PUESTO EVALUADO</span>
+                            <div class="font-bold text-white text-sm">Ayudante de Soldadura y Montaje</div>
+                            <p class="text-slate-300">Evaluación de carga física por manipulación de piezas y posturas forzadas.</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-center">
+                            <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                                <span class="text-[10px] text-slate-400 font-mono block">PUNTUACIÓN MATRIZ C</span>
+                                <div class="text-2xl font-bold font-display text-amber-400">Score = 4</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                                <span class="text-[10px] text-amber-400 font-mono block">NIVEL DE RIESGO</span>
+                                <div class="text-sm font-bold font-display text-amber-400 mt-1">RIESGO MEDIO</div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                            <strong class="text-sky-400 block mb-1">Acción Requerida:</strong>
+                            <p class="text-slate-300 text-[11px]">Se requiere actuación pronta. Implementación de mesas regulables de soldadura, pausas activas cada 2 horas y rotación del personal.</p>
+                        </div>
+
+                        <button onclick="downloadDocumentPDF('REBA')" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-400 font-semibold py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-file-pdf"></i> Descargar Informe REBA (PDF)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mapa SVG de Riesgos del Taller -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4 lg:col-span-2">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="text-lg font-bold font-display text-white">Mapa Interactivo de Riesgos (Taller y Oficinas)</h3>
+                        <span class="text-xs text-sky-400 font-mono"><i class="fa-solid fa-location-dot"></i> Haz clic en las zonas</span>
+                    </div>
+
+                    <!-- SVG Map Layout -->
+                    <div class="w-full bg-slate-950 p-4 rounded-xl border border-slate-800 overflow-x-auto">
+                        <svg viewBox="0 0 700 350" class="w-full h-auto max-h-[300px] font-sans">
+                            <!-- Background Layout -->
+                            <rect x="10" y="10" width="680" height="330" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+                            
+                            <!-- Zone 1: Soldadura 6G -->
+                            <g onclick="showZoneDetails('soldadura')" class="cursor-pointer hover:opacity-80 transition">
+                                <rect x="30" y="30" width="200" height="140" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+                                <text x="40" y="55" fill="#fca5a5" font-size="12" font-weight="bold">ZONA 1: SOLDEO 6G</text>
+                                <text x="40" y="75" fill="#cbd5e1" font-size="10">🔥 Cables Deteriorados (P×S=150)</text>
+                                <text x="40" y="90" fill="#cbd5e1" font-size="10">💨 Humos y Gases (P×S=40)</text>
+                                <text x="40" y="105" fill="#cbd5e1" font-size="10">⚡ Luz Intensa (P×S=20)</text>
+                                <circle cx="210" cy="45" r="10" fill="#ef4444"/>
+                                <text x="207" y="49" fill="#fff" font-size="10" font-weight="bold">!</text>
+                            </g>
+
+                            <!-- Zone 2: Corte y Esmerilado -->
+                            <g onclick="showZoneDetails('esmerilado')" class="cursor-pointer hover:opacity-80 transition">
+                                <rect x="250" y="30" width="200" height="140" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4"/>
+                                <text x="260" y="55" fill="#fcd34d" font-size="12" font-weight="bold">ZONA 2: CORTE Y ESMERILADO</text>
+                                <text x="260" y="75" fill="#cbd5e1" font-size="10">💥 Contacto Disco (P×S=60)</text>
+                                <text x="260" y="90" fill="#cbd5e1" font-size="10">✨ Chispas / Quemaduras (P×S=40)</text>
+                                <text x="260" y="105" fill="#cbd5e1" font-size="10">🔊 Ruido Elevado (P×S=10)</text>
+                                <circle cx="430" cy="45" r="10" fill="#f59e0b"/>
+                                <text x="427" y="49" fill="#fff" font-size="10" font-weight="bold">!</text>
+                            </g>
+
+                            <!-- Zone 3: Almacén Argón & Oleohidráulica -->
+                            <g onclick="showZoneDetails('argon')" class="cursor-pointer hover:opacity-80 transition">
+                                <rect x="470" y="30" width="200" height="140" rx="8" fill="#1e1b4b" stroke="#38bdf8" stroke-width="2"/>
+                                <text x="480" y="55" fill="#7dd3fc" font-size="12" font-weight="bold">ZONA 3: CILINDROS & HIDRÁULICA</text>
+                                <text x="480" y="75" fill="#cbd5e1" font-size="10">🧪 Cilindros Argón a Presión</text>
+                                <text x="480" y="90" fill="#cbd5e1" font-size="10">⚙️ Mangueras Alta Presión</text>
+                                <circle cx="650" cy="45" r="10" fill="#38bdf8"/>
+                                <text x="647" y="49" fill="#fff" font-size="10" font-weight="bold">i</text>
+                            </g>
+
+                            <!-- Zone 4: Oficinas Administrativas 5S -->
+                            <g onclick="showZoneDetails('oficinas')" class="cursor-pointer hover:opacity-80 transition">
+                                <rect x="30" y="190" width="640" height="130" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+                                <text x="40" y="215" fill="#6ee7b7" font-size="12" font-weight="bold">ZONA 4: OFICINAS ADMINISTRATIVAS & ALMACÉN ARCHIVO 5S</text>
+                                <text x="40" y="235" fill="#cbd5e1" font-size="10">🏢 Ergonomía de Escritorio (RM 375-2008-TR)</text>
+                                <text x="40" y="250" fill="#cbd5e1" font-size="10">🧯 Extintores NFPA 10 & Señalización Evacuación NTP 399.010-1</text>
+                                <text x="40" y="265" fill="#cbd5e1" font-size="10">📦 Armarios con Anclaje Antisísmico</text>
+                                <circle cx="650" cy="210" r="10" fill="#10b981"/>
+                                <text x="647" y="214" fill="#fff" font-size="10" font-weight="bold">✓</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div id="zone-info-box" class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 space-y-1">
+                        <div class="font-bold text-sky-400 font-display text-sm">Información de Zona: Clic en cualquier sector del mapa arriba</div>
+                        <p>Consulta los peligros evaluados, nivel de riesgo y equipo de protección personal asignado.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 4: PLANIFICACIÓN 2027 -->
+        <!-- ========================================== -->
+        <section id="tab-planificacion" class="tab-content hidden space-y-8">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs text-sky-400 font-mono">Plan Anual SST 2027 | Presupuesto Aprobado: S/ 6,000.00</span>
+                    <h2 class="text-2xl font-bold font-display text-white">Planificación, Marco Legal y Presupuesto SST</h2>
+                </div>
+                <button onclick="downloadDocumentPDF('PLAN')" class="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 shadow">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar Plan Anual (PDF)
+                </button>
+            </div>
+
+            <!-- Marco Legal Peruano de SST -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                <h3 class="text-lg font-bold font-display text-white">Marco Legal Peruano Aplicable al SGSST</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <strong class="text-orange-400 block font-mono">Ley N° 29783</strong>
+                        <span class="text-slate-300 text-[11px]">Ley de Seguridad y Salud en el Trabajo.</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <strong class="text-orange-400 block font-mono">Ley N° 30222</strong>
+                        <span class="text-slate-300 text-[11px]">Modificatoria de la Ley 29783.</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <strong class="text-orange-400 block font-mono">D.S. 005-2012-TR</strong>
+                        <span class="text-slate-300 text-[11px]">Reglamento de la Ley N° 29783.</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <strong class="text-orange-400 block font-mono">R.M. 050-2013-TR</strong>
+                        <span class="text-slate-300 text-[11px]">Formatos referenciales de registros.</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <strong class="text-orange-400 block font-mono">R.M. 375-2008-TR</strong>
+                        <span class="text-slate-300 text-[11px]">Norma básica de ergonomía.</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <strong class="text-orange-400 block font-mono">R.M. 312-2011-MINSA</strong>
+                        <span class="text-slate-300 text-[11px]">Protocolos de exámenes médicos.</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <strong class="text-orange-400 block font-mono">D.S. 003-98-SA</strong>
+                        <span class="text-slate-300 text-[11px]">Normas Técnicas del SCTR.</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <strong class="text-orange-400 block font-mono">ISO 45001:2018</strong>
+                        <span class="text-slate-300 text-[11px]">Estándar Internacional SST.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Presupuesto S/ 6,000.00 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 lg:col-span-2 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold font-display text-white">Presupuesto Anual de SST 2027 (S/ 6,000.00)</h3>
+                        <span class="text-xs text-sky-400 font-mono">10 Partidas de Inversión</span>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="chartPresupuesto"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3 text-xs">
+                    <h4 class="font-bold font-display text-white text-sm border-b border-slate-800 pb-2">Desglose de las 10 Partidas</h4>
+                    <div class="space-y-2 max-h-64 overflow-y-auto custom-scrollbar pr-1 text-[11px]">
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>1. Equipos de Protección (EPP)</span>
+                            <strong class="text-sky-400">S/ 1,500.00</strong>
+                        </div>
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>2. Vigilancia Médica (EMOs)</span>
+                            <strong class="text-sky-400">S/ 1,200.00</strong>
+                        </div>
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>3. Control Trabajos Caliente</span>
+                            <strong class="text-sky-400">S/ 700.00</strong>
+                        </div>
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>4. Extintores y Protección</span>
+                            <strong class="text-sky-400">S/ 650.00</strong>
+                        </div>
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>5. Capacitaciones y Talleres</span>
+                            <strong class="text-sky-400">S/ 600.00</strong>
+                        </div>
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>6. Inspecciones Preventivas</span>
+                            <strong class="text-sky-400">S/ 350.00</strong>
+                        </div>
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>7. Simulacros y Emergencias</span>
+                            <strong class="text-sky-400">S/ 350.00</strong>
+                        </div>
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>8. Actualización IPERC</span>
+                            <strong class="text-sky-400">S/ 250.00</strong>
+                        </div>
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>9. Gestión Documental</span>
+                            <strong class="text-sky-400">S/ 200.00</strong>
+                        </div>
+                        <div class="flex justify-between p-2 rounded bg-slate-900 border border-slate-800">
+                            <span>10. Auditorías Internas</span>
+                            <strong class="text-sky-400">S/ 200.00</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gantt Program 2027 -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                <h3 class="text-lg font-bold font-display text-white">Programa Anual SST 2027 (Diagrama de Gantt Ene - Dic)</h3>
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-[11px] border-collapse min-w-[850px]">
+                        <thead>
+                            <tr class="bg-slate-900 text-slate-400 border-b border-slate-800 font-mono">
+                                <th class="p-2.5">Actividad Preventiva</th>
+                                <th class="p-2.5">Responsable</th>
+                                <th class="p-1 text-center">E</th><th class="p-1 text-center">F</th><th class="p-1 text-center">M</th><th class="p-1 text-center">A</th><th class="p-1 text-center">M</th><th class="p-1 text-center">J</th><th class="p-1 text-center">J</th><th class="p-1 text-center">A</th><th class="p-1 text-center">S</th><th class="p-1 text-center">O</th><th class="p-1 text-center">N</th><th class="p-1 text-center">D</th>
+                                <th class="p-2.5">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 text-slate-300">
+                            <tr>
+                                <td class="p-2 font-medium text-white">Aprobación del Plan Anual SST 2027</td>
+                                <td class="p-2 text-slate-400">Gerencia General</td>
+                                <td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-sky-500 rounded"></span></td>
+                                <td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td>
+                                <td class="p-2"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Ejecutado</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-medium text-white">Actualización de Matriz IPERC Taller</td>
+                                <td class="p-2 text-slate-400">Supervisor SSOMA</td>
+                                <td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-sky-500 rounded"></span></td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-sky-500 rounded"></span></td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td><td class="p-1 text-center">-</td>
+                                <td class="p-2"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">En Curso</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-medium text-white">Capacitaciones en EPP y Trabajos Caliente</td>
+                                <td class="p-2 text-slate-400">Supervisor SSOMA</td>
+                                <td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-sky-500 rounded"></span></td><td class="p-1 text-center">-</td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-sky-500 rounded"></span></td><td class="p-1 text-center">-</td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-sky-500 rounded"></span></td><td class="p-1 text-center">-</td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-sky-500 rounded"></span></td><td class="p-1 text-center">-</td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-sky-500 rounded"></span></td><td class="p-1 text-center">-</td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-sky-500 rounded"></span></td><td class="p-1 text-center">-</td>
+                                <td class="p-2"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Programado</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 font-medium text-white">Inspección Mensual 5S & Extintores</td>
+                                <td class="p-2 text-slate-400">Supervisor Operativo</td>
+                                <td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td><td class="p-1 text-center"><span class="w-3.5 h-3.5 inline-block bg-emerald-500 rounded"></span></td>
+                                <td class="p-2"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Mensual</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 5: PROCEDIMIENTOS Y DESCARGAS PDF -->
+        <!-- ========================================== -->
+        <section id="tab-procedimientos" class="tab-content hidden space-y-8">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs text-orange-400 font-mono">FINOX - Área - Tipo - Categoría - Correlativo</span>
+                    <h2 class="text-2xl font-bold font-display text-white">Procedimientos Críticos & Centro de Descargas PDF</h2>
+                </div>
+            </div>
+
+            <!-- Codificación Documental -->
+            <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
+                <h3 class="text-base font-bold font-display text-white">Sistema de Codificación Documental (FINOX-SSOMA-FO03.02)</h3>
+                <p class="text-xs text-slate-300">
+                    Estructura normalizada: <strong>FINOX</strong> (Empresa) - <strong>SSOMA</strong> (Área) - <strong>PR/FO/IN/MT</strong> (Tipo) <strong>03</strong> (Categoría) . <strong>XX</strong> (Correlativo).
+                </p>
+            </div>
+
+            <!-- Grid de Documentos Críticos con PDF Download Real -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Doc 1: PETS Soldadura -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-orange-500/40 transition space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono text-orange-400">FINOX-SSOMA-PR03.02</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Versión 01</span>
+                        </div>
+                        <h4 class="font-bold text-white font-display text-lg mt-1">PETS Soldadura, Corte y Esmerilado</h4>
+                        <p class="text-xs text-slate-400 mt-2">Procedimiento paso a paso para prevención de chispas, incendios, aislamiento de cables y humos metálicos.</p>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="openDocPreviewModal('PR03.02')" class="flex-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 py-2 rounded-xl text-xs font-medium transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-eye"></i> Vista Previa
+                        </button>
+                        <button onclick="downloadDocumentPDF('PR03.02')" class="flex-1 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow">
+                            <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doc 2: Investigación Accidentes -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-orange-500/40 transition space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono text-orange-400">FINOX-SSOMA-PR03.01</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Versión 01</span>
+                        </div>
+                        <h4 class="font-bold text-white font-display text-lg mt-1">Investigación de Accidentes & Incidentes</h4>
+                        <p class="text-xs text-slate-400 mt-2">Protocolos de reporte de 24h a MINTRA para mortales, investigación en 48h y archivo por 10 años.</p>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="openDocPreviewModal('PR03.01')" class="flex-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 py-2 rounded-xl text-xs font-medium transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-eye"></i> Vista Previa
+                        </button>
+                        <button onclick="downloadDocumentPDF('PR03.01')" class="flex-1 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow">
+                            <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doc 3: Matriz IPERC Excel PDF -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-orange-500/40 transition space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono text-orange-400">FINOX-SSOMA-MT03.01</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Excel Oficial</span>
+                        </div>
+                        <h4 class="font-bold text-white font-display text-lg mt-1">Matriz IPERC Soldeo (10 Peligros)</h4>
+                        <p class="text-xs text-slate-400 mt-2">Documento oficial extraído del Excel con los 10 peligros de corte y soldadura evaluados.</p>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="switchTab('riesgos')" class="flex-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 py-2 rounded-xl text-xs font-medium transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-table"></i> Ver Tabla
+                        </button>
+                        <button onclick="downloadDocumentPDF('IPERC')" class="flex-1 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow">
+                            <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doc 4: Informe REBA -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-orange-500/40 transition space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono text-orange-400">FINOX-SSOMA-IN03.02</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Versión 01</span>
+                        </div>
+                        <h4 class="font-bold text-white font-display text-lg mt-1">Informe Ergonómico REBA</h4>
+                        <p class="text-xs text-slate-400 mt-2">Evaluación ergonómica del puesto de Ayudante de Soldadura (Matriz C = 4, Riesgo Medio).</p>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="openDocPreviewModal('IN03.02')" class="flex-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 py-2 rounded-xl text-xs font-medium transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-eye"></i> Vista Previa
+                        </button>
+                        <button onclick="downloadDocumentPDF('REBA')" class="flex-1 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow">
+                            <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doc 5: Plan Anual 2027 -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-orange-500/40 transition space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono text-orange-400">FINOX-SSOMA-PL03.01</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Versión 2027</span>
+                        </div>
+                        <h4 class="font-bold text-white font-display text-lg mt-1">Plan Anual de SST 2027</h4>
+                        <p class="text-xs text-slate-400 mt-2">Programa de actividades, presupuesto de S/ 6,000 y metas de siniestralidad.</p>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="openDocPreviewModal('PL03.01')" class="flex-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 py-2 rounded-xl text-xs font-medium transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-eye"></i> Vista Previa
+                        </button>
+                        <button onclick="downloadDocumentPDF('PLAN')" class="flex-1 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow">
+                            <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Doc 6: Registro F-05 -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-orange-500/40 transition space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono text-orange-400">FINOX-F-05</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">07/02/2025</span>
+                        </div>
+                        <h4 class="font-bold text-white font-display text-lg mt-1">Registro Inducción y Capacitación</h4>
+                        <p class="text-xs text-slate-400 mt-2">Acta firmada de inducción inicial impartida por el Ing. Metalurgista Elder Rafael Menchan.</p>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="switchTab('capacitacion')" class="flex-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 py-2 rounded-xl text-xs font-medium transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-users shadow"></i> Ver Registro
+                        </button>
+                        <button onclick="downloadDocumentPDF('F05')" class="flex-1 bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow">
+                            <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 6: CAPACITACIÓN Y REGISTROS -->
+        <!-- ========================================== -->
+        <section id="tab-capacitacion" class="tab-content hidden space-y-8">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs text-sky-400 font-mono">Programa Anual & Registros de Asistencia</span>
+                    <h2 class="text-2xl font-bold font-display text-white">Capacitaciones y Evidencias Documentadas</h2>
+                </div>
+                <button onclick="downloadDocumentPDF('F05')" class="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 shadow">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar Registro FINOX-F-05 (PDF)
+                </button>
+            </div>
+
+            <!-- Registro Oficial FINOX-F-05 -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-3">
+                    <div>
+                        <span class="text-xs text-orange-400 font-mono font-bold">REGISTRO OFICIAL FINOX-F-05</span>
+                        <h3 class="text-lg font-bold font-display text-white">Acta de Inducción de Seguridad y Salud en el Trabajo</h3>
+                    </div>
+                    <div class="text-xs text-slate-300 bg-slate-900 p-2 rounded-lg border border-slate-800">
+                        Capacitador: <strong>Elder Manuel Rafael Menchan</strong> (Ing. Metalurgista CIP 205149)
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                    <div class="space-y-2">
+                        <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                            <strong>Tema Impartido:</strong> Inducción de Seguridad y Salud en el Trabajo (2 Horas)
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                            <strong>Fecha de Ejecución:</strong> 07 de Febrero de 2025
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                            <strong>Lugar:</strong> Taller Chontapaccha Alta, Cajamarca (5 Operativos Registrados)
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <strong class="text-slate-200 block">Asistentes Registrados con Firma:</strong>
+                        <div class="space-y-1 text-slate-300 text-[11px]">
+                            <div class="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between">
+                                <span>1. Wilson Huamán Peralta (DNI 70551526)</span>
+                                <span class="text-emerald-400 font-mono font-bold">ASISTIÓ</span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between">
+                                <span>2. Edward Sangay Sangay (DNI 71337982)</span>
+                                <span class="text-emerald-400 font-mono font-bold">ASISTIÓ</span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between">
+                                <span>3. Alcides Milon Leon (DNI 60228336)</span>
+                                <span class="text-emerald-400 font-mono font-bold">ASISTIÓ</span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between">
+                                <span>4. Segundo Sosa Córdova (DNI 70496944)</span>
+                                <span class="text-emerald-400 font-mono font-bold">ASISTIÓ</span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between">
+                                <span>5. Alexander Ramos Mendoza (DNI 72019550)</span>
+                                <span class="text-emerald-400 font-mono font-bold">ASISTIÓ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 7: INSPECCIONES SST 5S -->
+        <!-- ========================================== -->
+        <section id="tab-inspecciones" class="tab-content hidden space-y-8">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs text-sky-400 font-mono">FINOX-SSOMA-RG03.01 | Registro de Inspección</span>
+                    <h2 class="text-2xl font-bold font-display text-white">Checklist de Inspección SST - Oficinas & Taller</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="downloadDocumentPDF('CHECKLIST')" class="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 shadow">
+                        <i class="fa-solid fa-file-pdf"></i> Descargar Checklist (PDF)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Score Banner -->
+            <div class="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 flex items-center justify-between">
+                <div>
+                    <span class="text-xs text-emerald-400 font-mono uppercase font-bold">NIVEL DE CUMPLIMIENTO GLOBAL</span>
+                    <div class="text-2xl font-bold font-display text-white">100% de Condición Subsanada en Oficinas y Taller</div>
+                </div>
+                <div id="chk-score-val" class="text-4xl font-bold font-display text-emerald-400">25/25</div>
+            </div>
+
+            <!-- Checklist Table -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <h3 class="text-lg font-bold font-display text-white">Criterios Evaluados (25 Ítems Reales)</h3>
+                    <select id="filter-chk-cat" onchange="filterChecklist()" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-300">
+                        <option value="ALL">Todas las Categorías</option>
+                        <option value="Ergonomía">Ergonomía (RM 375-2008-TR)</option>
+                        <option value="Señalización">Señalización / Evacuación (NTP 399)</option>
+                        <option value="Almacén Archivo">Almacén Archivo Antisísmico</option>
+                        <option value="EPP / Ambiente">EPP y Botiquín</option>
+                    </select>
+                </div>
+
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-slate-400 border-b border-slate-800 font-mono">
+                                <th class="p-3">N°</th>
+                                <th class="p-3">Categoría</th>
+                                <th class="p-3">Criterio de Inspección</th>
+                                <th class="p-3">Norma Base</th>
+                                <th class="p-3 text-center">Estado Subsanado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="checklist-table-body" class="divide-y divide-slate-800 text-slate-300">
+                            <!-- JS Populates 25 Items -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 8: INDICADORES & HHT -->
+        <!-- ========================================== -->
+        <section id="tab-indicadores" class="tab-content hidden space-y-8">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs text-sky-400 font-mono">Medición de Desempeño SST</span>
+                    <h2 class="text-2xl font-bold font-display text-white">Dashboard de Indicadores & Calculadora HHT</h2>
+                </div>
+            </div>
+
+            <!-- Calculadora HHT -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-6">
+                <h3 class="text-lg font-bold font-display text-white flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-sky-400"></i> Calculadora en Vivo de Siniestralidad (IF, IS, IA)
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">N° Accidentes Incapacitantes</label>
+                        <input type="number" id="kpi-acc" value="0" min="0" onchange="calculateKPIs()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">N° Días Perdidos Acumulados</label>
+                        <input type="number" id="kpi-days" value="0" min="0" onchange="calculateKPIs()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Horas Hombre Trabajadas (HHT)</label>
+                        <input type="number" id="kpi-hht" value="12500" min="1" onchange="calculateKPIs()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center">
+                        <span class="text-xs text-slate-400 font-mono block">ÍNDICE DE FRECUENCIA (IF)</span>
+                        <div id="res-if" class="text-3xl font-bold font-display text-emerald-400 mt-1">0.00</div>
+                        <span class="text-[10px] text-slate-500 mt-1 block">(Accidentes / HHT) × 1'000,000</span>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center">
+                        <span class="text-xs text-slate-400 font-mono block">ÍNDICE DE SEVERIDAD (IS)</span>
+                        <div id="res-is" class="text-3xl font-bold font-display text-emerald-400 mt-1">0.00</div>
+                        <span class="text-[10px] text-slate-500 mt-1 block">(Días Perdidos / HHT) × 1'000,000</span>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center">
+                        <span class="text-xs text-slate-400 font-mono block">ÍNDICE ACCIDENTABILIDAD (IA)</span>
+                        <div id="res-ia" class="text-3xl font-bold font-display text-emerald-400 mt-1">0.00</div>
+                        <span class="text-[10px] text-slate-500 mt-1 block">(IF × IS) / 1,000</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 9: REPORTE SST EN VIVO -->
+        <!-- ========================================== -->
+        <section id="tab-reporte" class="tab-content hidden space-y-8">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs text-amber-400 font-mono uppercase tracking-widest"><i class="fa-solid fa-bullhorn"></i> Reporte Directo</span>
+                    <h2 class="text-2xl font-bold font-display text-white">Bandeja de Reportes SST en Tiempo Real</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Formulario -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <h3 class="text-lg font-bold font-display text-white">Generar Nuevo Ticket SST</h3>
+                    
+                    <form id="form-reporte-sst" onsubmit="event.preventDefault(); submitSSTReport();" class="space-y-4 text-xs">
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Tipo de Evento</label>
+                            <select id="rep-tipo" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                                <option value="Condición Subestándar">Condición Subestándar</option>
+                                <option value="Acto Subestándar">Acto Subestándar</option>
+                                <option value="Incidente Sin Lesión">Incidente Sin Lesión</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Zona / Área</label>
+                            <select id="rep-area" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                                <option value="Taller - Bahía Soldadura 6G">Taller - Bahía Soldadura 6G</option>
+                                <option value="Taller - Zona Corte y Esmerilado">Taller - Zona Corte y Esmerilado</option>
+                                <option value="Taller - Almacén Argón">Taller - Almacén Argón</option>
+                                <option value="Oficinas Administrativas">Oficinas Administrativas</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Descripción del Hallazgo</label>
+                            <textarea id="rep-desc" required rows="3" placeholder="Describe la condición o acto observados..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Acción Inmediata Sugerida</label>
+                            <input type="text" id="rep-accion" required placeholder="Ej. Aislar cable / Limpiar pasillo" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                        </div>
+
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 rounded-xl transition text-xs shadow-lg shadow-amber-500/20">
+                            Enviar Ticket a SSOMA
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Stream en Vivo -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 lg:col-span-2 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="text-lg font-bold font-display text-white">Tickets de Hallazgos en Taller</h3>
+                        <span id="report-count-badge" class="text-xs text-amber-400 font-mono">2 Tickets Registrados</span>
+                    </div>
+
+                    <div id="reports-stream" class="space-y-3 max-h-[450px] overflow-y-auto custom-scrollbar pr-1">
+                        <!-- Seeded 1 -->
+                        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="font-mono font-bold text-amber-400">FINOX-REP-2027-001</span>
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px]">SUBSANADO</span>
+                            </div>
+                            <div class="font-bold text-white text-sm">Condición: Cables de equipo de corte con aislamiento desgastado</div>
+                            <p class="text-xs text-slate-300">Zona: Taller - Zona Corte y Esmerilado</p>
+                            <div class="text-[11px] text-slate-400 bg-slate-950 p-2 rounded border border-slate-800">
+                                <strong>Acción Implementada:</strong> Reemplazo de portaelectrodos y prueba de continuidad por Franco Guevara.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- MÓDULO 10: MEJORA CONTINUA (ANTES / DESPUÉS) -->
+        <!-- ========================================== -->
+        <section id="tab-mejora" class="tab-content hidden space-y-8">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs text-emerald-400 font-mono">Fase 6 | Ejecución de Propuesta de Mejora</span>
+                    <h2 class="text-2xl font-bold font-display text-white">Mejora Continua: Comparativa Antes vs. Después</h2>
+                </div>
+            </div>
+
+            <!-- Area Selector Tabs for Before/After -->
+            <div class="flex flex-wrap gap-2 text-xs">
+                <button onclick="switchMejoraTab('ergo')" id="btn-mejora-ergo" class="mejora-tab-btn bg-orange-600 text-white font-semibold px-4 py-2 rounded-xl transition">
+                    1. Ergonomía Escritorios
+                </button>
+                <button onclick="switchMejoraTab('elec')" id="btn-mejora-elec" class="mejora-tab-btn bg-slate-800 text-slate-300 hover:text-white px-4 py-2 rounded-xl transition">
+                    2. Cables & Señalización
+                </button>
+                <button onclick="switchMejoraTab('almacen')" id="btn-mejora-almacen" class="mejora-tab-btn bg-slate-800 text-slate-300 hover:text-white px-4 py-2 rounded-xl transition">
+                    3. Almacén Antisísmico
+                </button>
+                <button onclick="switchMejoraTab('salud')" id="btn-mejora-salud" class="mejora-tab-btn bg-slate-800 text-slate-300 hover:text-white px-4 py-2 rounded-xl transition">
+                    4. EPP Visita & Botiquín
+                </button>
+            </div>
+
+            <!-- Dynamic Comparison Box -->
+            <div id="mejora-content-box" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Rendered dynamically by JS -->
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- MODAL: PREVIEW DOCUMENTO -->
+    <div id="modal-doc-viewer" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700 w-full max-w-3xl space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="doc-modal-title" class="text-lg font-bold font-display text-white">Vista Previa de Documento</h3>
+                <button onclick="closeModal('modal-doc-viewer')" class="text-slate-400 hover:text-white text-lg">&times;</button>
+            </div>
+
+            <div class="border-2 border-slate-700 rounded-xl overflow-hidden bg-slate-900 text-xs">
+                <div class="grid grid-cols-4 divide-x divide-y divide-slate-700 text-center font-semibold">
+                    <div class="p-3 flex items-center justify-center bg-slate-950">
+                        <span class="font-bold font-display text-orange-400 text-xl">FINOX</span>
+                    </div>
+                    <div class="p-3 col-span-2 font-bold text-white flex items-center justify-center">
+                        PROYECTOS FINOX E.I.R.L. - SISTEMA DE GESTIÓN SST
+                    </div>
+                    <div class="p-2 font-mono text-[11px] text-slate-300 text-left space-y-0.5">
+                        <div><strong>Código:</strong> <span id="doc-modal-code" class="text-sky-400">FINOX-SSOMA-PR03.02</span></div>
+                        <div><strong>Versión:</strong> 01</div>
+                    </div>
+                    <div id="doc-modal-header-title" class="p-2.5 col-span-4 bg-slate-950 text-slate-200 font-bold uppercase tracking-wider">
+                        PROCEDIMIENTO ESCRITO DE TRABAJO SEGURO (PETS)
+                    </div>
+                </div>
+            </div>
+
+            <div id="doc-modal-body" class="space-y-3 text-xs text-slate-300 leading-relaxed pt-2">
+                <!-- JS Content -->
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+                <button onclick="closeModal('modal-doc-viewer')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs">Cerrar</button>
+                <button id="doc-modal-download-btn" onclick="" class="bg-orange-600 hover:bg-orange-500 text-white font-semibold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CREDITOS UPN -->
+    <div id="modal-upn-info" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700 w-full max-w-md space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-orange-400 text-xl"></i>
+                    <h3 class="text-lg font-bold font-display text-white">Créditos UPN Cajamarca</h3>
+                </div>
+                <button onclick="closeModal('modal-upn-info')" class="text-slate-400 hover:text-white text-lg">&times;</button>
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-300">
+                <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-1">
+                    <strong class="text-orange-400 block font-display text-sm">Universidad Privada del Norte</strong>
+                    <p>Facultad de Ingeniería - Ingeniería Industrial</p>
+                    <p>Curso: <strong>Seguridad y Salud Ocupacional (T3)</strong></p>
+                    <p>Docente: <strong>Ing. Maryuri Yohana Vega Eras</strong></p>
+                </div>
+
+                <div>
+                    <strong class="text-white block mb-2">Equipo de Estudiantes Investigadores:</strong>
+                    <ul class="space-y-1 list-disc list-inside text-slate-400">
+                        <li>Bolaños García, Luis Ángel</li>
+                        <li>Tenorio Maluquis, Eyder Adelmo</li>
+                        <li>Portal Medina, Sheferson Duván</li>
+                        <li>Potosí Quispe, Nataly Jhannely</li>
+                        <li>Chugden Quispe, Diego Orlando</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-right pt-2">
+                <button onclick="closeModal('modal-upn-info')" class="bg-slate-800 hover:bg-slate-700 text-white font-medium px-4 py-2 rounded-xl text-xs">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: AGREGAR RIESGO CUSTOM -->
+    <div id="modal-add-iperc" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+        <div class="glass-panel p-6 rounded-2xl border border-slate-700 w-full max-w-lg space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-lg font-bold font-display text-white">Agregar Peligro a la Matriz IPERC</h3>
+                <button onclick="closeModal('modal-add-iperc')" class="text-slate-400 hover:text-white text-lg">&times;</button>
+            </div>
+
+            <form id="form-add-iperc" onsubmit="event.preventDefault(); saveCustomIPERC();" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Actividad</label>
+                    <select id="new-act" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                        <option value="Corte de estructuras metálicas">Corte de estructuras metálicas</option>
+                        <option value="Unión de estructuras metálicas mediante soldadura">Unión de estructuras metálicas mediante soldadura</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Peligro Identificado</label>
+                    <input type="text" id="new-peligro" required placeholder="Ej. Presión hidráulica descontrolada" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Riesgo / Consecuencia</label>
+                    <input type="text" id="new-riesgo" required placeholder="Ej. Inyección de fluido, quemadura" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Probabilidad (1-5)</label>
+                        <input type="number" id="new-prob" min="1" max="5" value="3" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Severidad (2, 5, 10, 20, 50)</label>
+                        <input type="number" id="new-sev" min="2" max="50" value="10" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Medidas de Control</label>
+                    <input type="text" id="new-control" required placeholder="Ej. Inspección diaria y EPP específico" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200">
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-add-iperc')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs">Cancelar</button>
+                    <button type="submit" class="bg-orange-600 hover:bg-orange-500 text-white font-semibold px-4 py-2 rounded-xl text-xs">Guardar en Matriz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC & PDF ENGINE -->
+    <script>
+        // DATA EXCEL REAL IPERC MATRIX (10 ITEMS EXACT)
+        let ipercDataExcel = [
+            {
+                id: 1,
+                actividad: "Corte de estructuras metálicas",
+                peligro: "Cables eléctricos deteriorados, conexiones defectuosas o partes energizadas expuestas del equipo de corte",
+                riesgo: "Contacto eléctrico, descarga eléctrica, quemaduras graves, paro cardíaco y electrocución",
+                p: 3, s: 50, score: 150, level: "CRÍTICO",
+                control: "Inspección de cables, enchufes y conexiones eléctricas antes de iniciar las actividades, EPP, desconexión de equipos al finalizar o durante el mantenimiento.",
+                docUrl: "https://docs.google.com/document/d/1TNk_esY0Q5tl4Dl5XQTqaVC3JiWB6FGR/edit?usp=sharing",
+                resp: "Supervisor SSO, Supervisor Operativo, Trabajadores."
+            },
+            {
+                id: 2,
+                actividad: "Corte de estructuras metálicas",
+                peligro: "Chispas producidas al cortar el metal",
+                riesgo: "Quemaduras térmicas, lesiones oculares y posibles incendios por contacto con materiales combustibles",
+                p: 4, s: 10, score: 40, level: "ALTO",
+                control: "Uso obligatorio de lentes de seguridad, careta facial, guantes de cuero y ropa de protección; delimitación del área de trabajo y retiro de materiales inflamables.",
+                docUrl: "https://docs.google.com/document/d/12YjcCM82A6_-RMI5wIJ75FVhzWQ1bsTr/edit?usp=sharing",
+                resp: "Supervisor SSOMA, Supervisor Operativo, Soldadores y ayudantes."
+            },
+            {
+                id: 3,
+                actividad: "Corte de estructuras metálicas",
+                peligro: "Contacto accidental con el disco de corte en movimiento",
+                riesgo: "Cortes profundos, laceraciones y amputación de dedo",
+                p: 3, s: 20, score: 60, level: "ALTO",
+                control: "Uso de la guarda protectora del equipo de corte, inspección previa del disco de corte para detectar fisuras o desgaste, sujeción adecuada de las piezas a cortar y uso de EPP (guantes de cuero y ropa de trabajo resistente).",
+                docUrl: "https://docs.google.com/document/d/12YjcCM82A6_-RMI5wIJ75FVhzWQ1bsTr/edit?usp=sharing",
+                resp: "Supervisor SSOMA, Supervisor Operativo, Soldadores y ayudantes."
+            },
+            {
+                id: 4,
+                actividad: "Corte de estructuras metálicas",
+                peligro: "Presencia de bordes filosos y rebabas en las piezas metálicas cortadas",
+                riesgo: "Cortes, heridas punzantes y laceraciones en manos y brazos",
+                p: 4, s: 2, score: 8, level: "BAJO",
+                control: "Uso obligatorio de guantes anticorte o de cuero durante la manipulación de las piezas cortadas e inspección visual de las piezas metálicas antes de manipularlas.",
+                docUrl: "https://docs.google.com/document/d/1QHvtZePlb0s7TJhPTyjOJzq054xvQsNV/edit?usp=sharing",
+                resp: "Supervisor SSO, Supervisor Operativo, Trabajadores."
+            },
+            {
+                id: 5,
+                actividad: "Corte de estructuras metálicas",
+                peligro: "Exposición a niveles elevados de ruido generados por los equipos de corte",
+                riesgo: "Fatiga auditiva y pérdida progresiva de la audición (hipoacusia inducida por ruido)",
+                p: 5, s: 2, score: 10, level: "MEDIO",
+                control: "Uso obligatorio de protección auditiva (tapones auditivos u orejeras) durante la operación de corte, inspección periódica de los equipos de corte y mantenimiento preventivo.",
+                docUrl: "https://docs.google.com/document/d/12YjcCM82A6_-RMI5wIJ75FVhzWQ1bsTr/edit?usp=sharing",
+                resp: "Supervisor SSOMA, Supervisor Operativo, Soldadores y ayudantes."
+            },
+            {
+                id: 6,
+                actividad: "Unión de estructuras metálicas mediante soldadura",
+                peligro: "Exposición a la luz intensa (radiación ultravioleta e infrarroja) que se genera al soldar las estructuras metálicas",
+                riesgo: "Quemaduras en la piel, irritación y lesiones en los ojos (fotoqueratitis)",
+                p: 4, s: 5, score: 20, level: "MEDIO",
+                control: "Uso de careta de soldar con filtro adecuado, guantes de cuero, ropa de protección y pantallas o biombos de seguridad alrededor del área de soldadura.",
+                docUrl: "https://docs.google.com/document/d/1pMdVBggIs6R2dBno5Ca7dXn-aUmWr_ER/edit?usp=sharing",
+                resp: "Supervisor SSO, Supervisor Operativo, Trabajadores."
+            },
+            {
+                id: 7,
+                actividad: "Unión de estructuras metálicas mediante soldadura",
+                peligro: "Contacto con piezas metálicas calientes durante y después de la soldadura",
+                riesgo: "Quemaduras en manos, brazos y otras partes del cuerpo",
+                p: 4, s: 2, score: 8, level: "BAJO",
+                control: "Uso de guantes de cuero para soldador, ropa de protección adecuada y señalización de las piezas metálicas calientes.",
+                docUrl: "https://docs.google.com/document/d/12YjcCM82A6_-RMI5wIJ75FVhzWQ1bsTr/edit?usp=sharing",
+                resp: "Supervisor SSOMA, Supervisor Operativo, Soldadores y ayudantes."
+            },
+            {
+                id: 8,
+                actividad: "Unión de estructuras metálicas mediante soldadura",
+                peligro: "Inhalación de humos y gases generados durante la soldadura de estructuras metálicas",
+                riesgo: "Irritación de las vías respiratorias, dificultad para respirar y posibles enfermedades pulmonares por exposición prolongada",
+                p: 4, s: 10, score: 40, level: "ALTO",
+                control: "Uso de protección respiratoria adecuada para humos metálicos, ventilación adecuada en el área de trabajo y uso de extractores de humo cuando se requiera.",
+                docUrl: "https://docs.google.com/document/d/12YjcCM82A6_-RMI5wIJ75FVhzWQ1bsTr/edit?usp=sharing",
+                resp: "Supervisor SSOMA, Supervisor Operativo, Soldadores y ayudantes."
+            },
+            {
+                id: 9,
+                actividad: "Unión de estructuras metálicas mediante soldadura",
+                peligro: "Posturas forzadas durante la soldadura de estructuras metálicas",
+                riesgo: "Dolores musculares, lesiones en la espalda, cuello y brazos por mantener posiciones incómodas durante períodos prolongados",
+                p: 4, s: 5, score: 20, level: "MEDIO",
+                control: "Uso de soportes o mesas para colocar las piezas a una altura adecuada, realización de pausas de descanso y cambios de postura durante la jornada laboral.",
+                docUrl: "https://docs.google.com/document/d/1Nc9y5TqBSMRZZxYCQGocu7kiM5Z4Ogjh/edit?usp=sharing",
+                resp: "Supervisor SSO, Supervisor Operativo, Trabajadores."
+            },
+            {
+                id: 10,
+                actividad: "Unión de estructuras metálicas mediante soldadura",
+                peligro: "Presencia de cables eléctricos deteriorados y conexiones defectuosas en el equipo de soldadura",
+                riesgo: "Descargas eléctricas, quemaduras graves y electrocución",
+                p: 3, s: 50, score: 150, level: "CRÍTICO",
+                control: "Inspección periódica del aislamiento de los cables portaelectrodos y de alimentación, conexión a tierra efectiva de los equipos de soldar, verificación de enchufes y tomas de corriente en buen estado, y desconexión de los equipos al finalizar la jornada o antes de cualquier mantenimiento.",
+                docUrl: "https://docs.google.com/document/d/1TNk_esY0Q5tl4Dl5XQTqaVC3JiWB6FGR/edit?usp=sharing",
+                resp: "Supervisor SSO, Supervisor Operativo, Trabajadores."
+            }
+        ];
+
+        // 25 Checklist Items
+        const checklistItems = [
+            { num: 1, area: "Ergonomía", desc: "Sillas operativas ergonómicas con ajuste de altura y respaldo lumbar.", norm: "RM 375-2008-TR" },
+            { num: 2, area: "Ergonomía", desc: "Ubicación de monitores a la altura de los ojos (45-70cm).", norm: "RM 375-2008-TR" },
+            { num: 3, area: "Ergonomía", desc: "Espacio libre suficiente bajo escritorios para libre movimiento de piernas.", norm: "RM 375-2008-TR" },
+            { num: 4, area: "Ergonomía", desc: "Iluminación uniforme en puestos de trabajo (300-500 lux).", norm: "RM 375-2008-TR" },
+            { num: 5, area: "Ergonomía", desc: "Teclados y mouses alineados al nivel de los codos.", norm: "RM 375-2008-TR" },
+            { num: 6, area: "Señalización", desc: "Señales de rutas de evacuación y salidas fotoluminiscentes.", norm: "NTP 399.010-1" },
+            { num: 7, area: "Señalización", desc: "Extintores operativos (CO2/PQS), señalizados y desobstruidos.", norm: "NFPA 10 / Ley 29783" },
+            { num: 8, area: "Señalización", desc: "Luces de emergencia operativas en pasillos y escaleras.", norm: "RNE / NTP 399.010-1" },
+            { num: 9, area: "Señalización", desc: "Tableros eléctricos señalizados con riesgo eléctrico.", norm: "CNE / NTP 399.010-1" },
+            { num: 10, area: "Señalización", desc: "Ausencia de cables eléctricos sueltos o expuestos en suelo.", norm: "CNE / Ley 29783" },
+            { num: 11, area: "Señalización", desc: "Puntos de tomacorriente sin sobrecargas por adaptadores 'pulpos'.", norm: "CNE / ISO 45001" },
+            { num: 12, area: "Señalización", desc: "Vías de evacuación y pasillos libres de cajas u objetos.", norm: "Ley N° 29783" },
+            { num: 13, area: "Almacén Archivo", desc: "Armarios, estantes y credenzas anclados a muros anti-sismo.", norm: "ISO 45001 (6.1.2)" },
+            { num: 14, area: "Almacén Archivo", desc: "Pasillos de almacén limpios y despejados.", norm: "ISO 45001 (8.1.2)" },
+            { num: 15, area: "EPP / Ambiente", desc: "Disponibilidad de EPP de visita (casco, lentes, chaleco reflectante).", norm: "Ley 29783 Art. 60" },
+            { num: 16, area: "EPP / Ambiente", desc: "Botiquín de primeros auxilios equipado e insumos vigentes.", norm: "RM 050-2013-TR" },
+            { num: 17, area: "EPP / Ambiente", desc: "Dispensadores de agua potable en condiciones higiénicas.", norm: "DS 005-2012-TR" },
+            { num: 18, area: "EPP / Ambiente", desc: "Servicios higiénicos limpios y con agua continua.", norm: "DS 005-2012-TR" },
+            { num: 19, area: "EPP / Ambiente", desc: "Tachos de residuos rotulados según norma de código colores.", norm: "NTP 900.058" },
+            { num: 20, area: "Ergonomía", desc: "Publicación de la Política SIG en lugar visible.", norm: "ISO 45001 (5.2)" },
+            { num: 21, area: "Señalización", desc: "Publicación del Mapa de Riesgos de la instalación.", norm: "Ley N° 29783" },
+            { num: 22, area: "Señalización", desc: "Publicación del Organigrama y Supervisor SST.", norm: "Ley N° 29783" },
+            { num: 23, area: "Señalización", desc: "Directorio de emergencias (Bomberos, Clínica) visible.", norm: "DS 005-2012-TR" },
+            { num: 24, area: "Señalización", desc: "Camilla de primeros auxilios señalizada y accesible.", norm: "RM 050-2013-TR" },
+            { num: 25, area: "Ergonomía", desc: "Pausas activas programadas durante la jornada de trabajo.", norm: "RM 375-2008-TR" }
+        ];
+
+        let reportCounter = 2;
+
+        // INIT LIFECYCLE
+        window.addEventListener('DOMContentLoaded', () => {
+            renderIPERCTable();
+            renderChecklistTable();
+            initChartPresupuesto();
+            switchMejoraTab('ergo');
+            calculateIPERCScore();
+        });
+
+        // TAB SWITCHING (10 MODULES EXACT)
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(el => {
+                el.classList.remove('text-sky-400', 'bg-slate-800/90', 'border-sky-500/30');
+                el.classList.add('text-slate-400');
+            });
+            document.querySelectorAll('.mobile-tab-btn').forEach(el => {
+                el.classList.remove('text-sky-400', 'bg-slate-800');
+                el.classList.add('text-slate-300');
+            });
+
+            const activeTab = document.getElementById('tab-' + tabId);
+            const activeBtn = document.getElementById('btn-tab-' + tabId);
+
+            if (activeTab) activeTab.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-400');
+                activeBtn.classList.add('text-sky-400', 'bg-slate-800/90', 'border-sky-500/30');
+            }
+
+            document.getElementById('mobile-nav').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileNav() {
+            document.getElementById('mobile-nav').classList.toggle('hidden');
+        }
+
+        // QUICK MODULE SEARCH
+        function quickModuleSearch(query) {
+            const q = query.toLowerCase().trim();
+            if (!q) return;
+
+            const modules = [
+                { id: 'inicio', title: 'inicio procesos foda' },
+                { id: 'politica', title: 'politica organizacion sig objetivos mof organigrama' },
+                { id: 'riesgos', title: 'riesgos iperc matiz reba excel mapa soldeo corte' },
+                { id: 'planificacion', title: 'planificacion programa 2027 presupuesto marco legal' },
+                { id: 'procedimientos', title: 'procedimientos pets descargas pdf codificacion' },
+                { id: 'capacitacion', title: 'capacitacion induccion registros f-05 elder' },
+                { id: 'inspecciones', title: 'inspecciones 5s checklist oficinas taller' },
+                { id: 'indicadores', title: 'indicadores siniestralidad hht if is ia' },
+                { id: 'reporte', title: 'reporte hallazgos tickets actos condiciones' },
+                { id: 'mejora', title: 'mejora continua antes despues ergonomia' }
+            ];
+
+            const match = modules.find(m => m.title.includes(q));
+            if (match) {
+                switchTab(match.id);
+            }
+        }
+
+        // RENDER IPERC TABLE FROM EXCEL
+        function renderIPERCTable() {
+            const tbody = document.getElementById('iperc-table-body');
+            const actFilter = document.getElementById('filter-iperc-act')?.value || 'ALL';
+            const levelFilter = document.getElementById('filter-iperc-level')?.value || 'ALL';
+
+            tbody.innerHTML = '';
+
+            ipercDataExcel.forEach(item => {
+                if (actFilter !== 'ALL' && item.actividad !== actFilter) return;
+                if (levelFilter !== 'ALL' && item.level !== levelFilter) return;
+
+                let badgeClass = "";
+                if (item.level === 'CRÍTICO') badgeClass = "bg-rose-500/20 text-rose-400 border-rose-500/40 font-bold";
+                else if (item.level === 'ALTO') badgeClass = "bg-amber-500/20 text-amber-400 border-amber-500/40 font-bold";
+                else if (item.level === 'MEDIO') badgeClass = "bg-sky-500/20 text-sky-400 border-sky-500/40 font-semibold";
+                else badgeClass = "bg-emerald-500/20 text-emerald-400 border-emerald-500/40";
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-900/80 transition text-[11px]";
+                tr.innerHTML = `
+                    <td class="p-3 font-mono text-slate-400">${item.id}</td>
+                    <td class="p-3 font-medium text-white max-w-[140px]">${item.actividad}</td>
+                    <td class="p-3 text-slate-200 max-w-[200px]">${item.peligro}</td>
+                    <td class="p-3 text-slate-300 max-w-[180px]">${item.riesgo}</td>
+                    <td class="p-3 text-center font-mono font-bold">${item.p}</td>
+                    <td class="p-3 text-center font-mono font-bold">${item.s}</td>
+                    <td class="p-3 text-center font-mono font-bold text-white text-xs">${item.score}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] border ${badgeClass}">${item.level}</span></td>
+                    <td class="p-3 text-slate-300 max-w-[220px]">${item.control}</td>
+                    <td class="p-3 space-y-1">
+                        <a href="${item.docUrl}" target="_blank" class="inline-flex items-center gap-1 text-[10px] text-sky-400 hover:underline">
+                            <i class="fa-solid fa-link"></i> Ver Doc
+                        </a>
+                        <span class="block text-[10px] text-slate-500">${item.resp}</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterIPERC() { renderIPERCTable(); }
+
+        // IPERC CALCULATOR
+        function calculateIPERCScore() {
+            const p = parseInt(document.getElementById('calc-prob').value);
+            const s = parseInt(document.getElementById('calc-sev').value);
+            const score = p * s;
+
+            const scoreEl = document.getElementById('calc-score');
+            const badgeEl = document.getElementById('calc-badge');
+            const actionEl = document.getElementById('calc-action');
+
+            scoreEl.innerText = score;
+
+            if (score >= 150) {
+                scoreEl.className = "text-5xl font-bold font-display text-rose-500 pulse-critical";
+                badgeEl.className = "px-3 py-1 rounded-full text-xs font-bold uppercase bg-rose-500/20 text-rose-400 border border-rose-500/40";
+                badgeEl.innerText = `RIESGO CRÍTICO (${score})`;
+                actionEl.innerText = "TRABAJO DETENIDO. Inspección estricta de cables, puesta a tierra y permiso LOTO obligatorio.";
+            } else if (score >= 40) {
+                scoreEl.className = "text-5xl font-bold font-display text-amber-400";
+                badgeEl.className = "px-3 py-1 rounded-full text-xs font-bold uppercase bg-amber-500/20 text-amber-400 border border-amber-500/40";
+                badgeEl.innerText = `RIESGO ALTO (${score})`;
+                actionEl.innerText = "Uso de careta facial, respirador para humos metálicos y biombos ignífugos.";
+            } else if (score >= 10) {
+                scoreEl.className = "text-5xl font-bold font-display text-sky-400";
+                badgeEl.className = "px-3 py-1 rounded-full text-xs font-bold uppercase bg-sky-500/20 text-sky-400 border border-sky-500/40";
+                badgeEl.innerText = `RIESGO MEDIO (${score})`;
+                actionEl.innerText = "Careta de soldar, pantallas de seguridad, pausas activas y ventilación.";
+            } else {
+                scoreEl.className = "text-5xl font-bold font-display text-emerald-400";
+                badgeEl.className = "px-3 py-1 rounded-full text-xs font-bold uppercase bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
+                badgeEl.innerText = `RIESGO BAJO (${score})`;
+                actionEl.innerText = "Guantes anticorte y ropa de seguridad estándar.";
+            }
+        }
+
+        // SAVE CUSTOM IPERC ITEM
+        function saveCustomIPERC() {
+            const act = document.getElementById('new-act').value;
+            const peligro = document.getElementById('new-peligro').value;
+            const riesgo = document.getElementById('new-riesgo').value;
+            const p = parseInt(document.getElementById('new-prob').value);
+            const s = parseInt(document.getElementById('new-sev').value);
+            const control = document.getElementById('new-control').value;
+            const score = p * s;
+
+            let level = "BAJO";
+            if (score >= 150) level = "CRÍTICO";
+            else if (score >= 40) level = "ALTO";
+            else if (score >= 10) level = "MEDIO";
+
+            ipercDataExcel.unshift({
+                id: ipercDataExcel.length + 1,
+                actividad: act, peligro, riesgo, p, s, score, level, control,
+                docUrl: "#", resp: "Supervisor SSOMA, Operativos"
+            });
+
+            renderIPERCTable();
+            closeModal('modal-add-iperc');
+            showToast("Nuevo riesgo agregado a la Matriz IPERC con éxito", "success");
+        }
+
+        // MOF ROLE DISPLAY
+        function showMOFRole(role) {
+            const box = document.getElementById('mof-dynamic-box');
+            if (role === 'gerente') {
+                box.innerHTML = `
+                    <strong class="text-sky-400 block font-display text-sm">Wilmer Herrera Bardales - Gerente General</strong>
+                    <ul class="list-disc list-inside text-slate-300 space-y-1 text-[11px] mt-1">
+                        <li>Aprobar la Política SIG y asignar el presupuesto anual de S/ 6,000.00.</li>
+                        <li>Notificar accidentes mortales a MINTRA en máximo 24 horas (Ley 29783).</li>
+                        <li>Revisar anualmente el desempeño del SGSST según ISO 45001.</li>
+                    </ul>
+                `;
+            } else if (role === 'operativo') {
+                box.innerHTML = `
+                    <strong class="text-orange-400 block font-display text-sm">Franco Guevara Alvarado - Supervisor Operativo</strong>
+                    <ul class="list-disc list-inside text-slate-300 space-y-1 text-[11px] mt-1">
+                        <li>Supervisar la ejecución de soldadura 6G, esmerilado y armado.</li>
+                        <li>Verificar el cumplimiento estricto del PETS (FINOX-SSOMA-PR03.02).</li>
+                        <li>Inspeccionar tableros eléctricos, amoladoras y cables de corte.</li>
+                    </ul>
+                `;
+            } else if (role === 'ssoma') {
+                box.innerHTML = `
+                    <strong class="text-emerald-400 block font-display text-sm">Ing. Luz Portal Huamán (CIP 266004) - Supervisor SSOMA</strong>
+                    <ul class="list-disc list-inside text-slate-300 space-y-1 text-[11px] mt-1">
+                        <li>Liderar la actualización de la Matriz IPERC de 10 peligros del Excel.</li>
+                        <li>Realizar las inspecciones preventivas 5S y evaluación ergonómica REBA.</li>
+                        <li>Calcular mensualmente los índices de siniestralidad (IF, IS, IA).</li>
+                    </ul>
+                `;
+            } else if (role === 'personal') {
+                box.innerHTML = `
+                    <strong class="text-amber-400 block font-display text-sm">Personal Operativo (6 Trabajadores de Taller)</strong>
+                    <ul class="list-disc list-inside text-slate-300 space-y-1 text-[11px] mt-1">
+                        <li>Uso obligatorio de EPP específico (Careta 6G, respirador humos 2097).</li>
+                        <li>Reportar condiciones inseguras en la bandeja del portal.</li>
+                        <li>Participar activamente en las inducciones de 2 horas (FINOX-F-05).</li>
+                    </ul>
+                `;
+            }
+        }
+
+        // MAP SVG ZONE DETAILS
+        function showZoneDetails(zone) {
+            const box = document.getElementById('zone-info-box');
+            if (zone === 'soldadura') {
+                box.innerHTML = `
+                    <div class="font-bold text-rose-400 font-display text-sm">Zona 1: Bahía de Soldeo 6G</div>
+                    <p><strong>Peligros Críticos:</strong> Cables deteriorados (P×S = 150 - CRÍTICO), inhalación de humos metálicos (P×S = 40 - ALTO), luz intensa (P×S = 20 - MEDIO).</p>
+                    <p><strong>EPP Asignado:</strong> Careta de soldar multiproceso, respirador filtro 2097, mandil de cuero cromo, guantes largos y calzado dieléctrico.</p>
+                `;
+            } else if (zone === 'esmerilado') {
+                box.innerHTML = `
+                    <div class="font-bold text-amber-400 font-display text-sm">Zona 2: Corte y Esmerilado</div>
+                    <p><strong>Peligros:</strong> Contacto disco en movimiento (P×S = 60 - ALTO), chispas/incendios (P×S = 40 - ALTO), ruido elevado (P×S = 10 - MEDIO).</p>
+                    <p><strong>EPP Asignado:</strong> Careta facial de policarbonato, lentes de seguridad, tapones auditivos u orejeras, guardas en amoladoras.</p>
+                `;
+            } else if (zone === 'argon') {
+                box.innerHTML = `
+                    <div class="font-bold text-sky-400 font-display text-sm">Zona 3: Cilindros Argón & Oleohidráulica</div>
+                    <p><strong>Peligros:</strong> Recipientes a presión de gas Argón, fluidos hidráulicos a alta presión.</p>
+                    <p><strong>Controles:</strong> Sujeción con cadenas, capuchones de protección, fundas antilátigo en mangueras.</p>
+                `;
+            } else if (zone === 'oficinas') {
+                box.innerHTML = `
+                    <div class="font-bold text-emerald-400 font-display text-sm">Zona 4: Oficinas Administrativas & Almacén 5S</div>
+                    <p><strong>Peligros:</strong> Posturas de escritorio (RM 375-2008-TR), riesgo sísmico por armarios libres.</p>
+                    <p><strong>Controles Subsanados:</strong> Sillas ergonómicas regulables, anclaje antisísmico de estantes, botiquín y extintor libre de obstáculos.</p>
+                `;
+            }
+        }
+
+        // RENDER CHECKLIST TABLE (25 ITEMS)
+        function renderChecklistTable() {
+            const tbody = document.getElementById('checklist-table-body');
+            const cat = document.getElementById('filter-chk-cat')?.value || 'ALL';
+            tbody.innerHTML = '';
+
+            checklistItems.forEach(item => {
+                if (cat !== 'ALL' && item.area !== cat) return;
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-900/80 transition text-xs";
+                tr.innerHTML = `
+                    <td class="p-3 font-mono text-slate-500">${item.num}</td>
+                    <td class="p-3 font-semibold text-white">${item.area}</td>
+                    <td class="p-3 text-slate-300">${item.desc}</td>
+                    <td class="p-3 text-slate-400 font-mono text-[11px]">${item.norm}</td>
+                    <td class="p-3 text-center">
+                        <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold text-[10px]">
+                            <i class="fa-solid fa-check"></i> SUBSANADO (100%)
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterChecklist() { renderChecklistTable(); }
+
+        // KPI CALCULATOR HHT
+        function calculateKPIs() {
+            const acc = parseFloat(document.getElementById('kpi-acc').value) || 0;
+            const days = parseFloat(document.getElementById('kpi-days').value) || 0;
+            const hht = parseFloat(document.getElementById('kpi-hht').value) || 1;
+
+            const IF = ((acc / hht) * 1000000).toFixed(2);
+            const IS = ((days / hht) * 1000000).toFixed(2);
+            const IA = ((IF * IS) / 1000).toFixed(2);
+
+            document.getElementById('res-if').innerText = IF;
+            document.getElementById('res-is').innerText = IS;
+            document.getElementById('res-ia').innerText = IA;
+        }
+
+        // SST LIVE REPORTING
+        function submitSSTReport() {
+            const tipo = document.getElementById('rep-tipo').value;
+            const area = document.getElementById('rep-area').value;
+            const desc = document.getElementById('rep-desc').value;
+            const accion = document.getElementById('rep-accion').value;
+
+            reportCounter++;
+            const ticketId = `FINOX-REP-2027-00${reportCounter}`;
+
+            const stream = document.getElementById('reports-stream');
+            const card = document.createElement('div');
+            card.className = "p-4 rounded-xl bg-slate-900 border border-orange-500/40 space-y-2 animate-fade-in";
+            card.innerHTML = `
+                <div class="flex items-center justify-between text-xs">
+                    <span class="font-mono font-bold text-amber-400">${ticketId}</span>
+                    <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400 border border-sky-500/30 text-[10px]">NUEVO TICKET</span>
+                </div>
+                <div class="font-bold text-white text-sm">${tipo}: ${desc}</div>
+                <p class="text-xs text-slate-300">Zona: ${area}</p>
+                <div class="text-[11px] text-slate-400 bg-slate-950 p-2 rounded border border-slate-800">
+                    <strong>Acción Sugerida:</strong> ${accion}
+                </div>
+            `;
+
+            stream.prepend(card);
+            document.getElementById('form-reporte-sst').reset();
+            document.getElementById('report-count-badge').innerText = `${reportCounter} Tickets Registrados`;
+
+            showToast(`Ticket ${ticketId} enviado a la central SSOMA`, "success");
+        }
+
+        // MODULE 10: MEJORA CONTINUA ANTES / DESPUÉS
+        function switchMejoraTab(category) {
+            document.querySelectorAll('.mejora-tab-btn').forEach(btn => {
+                btn.className = "mejora-tab-btn bg-slate-800 text-slate-300 hover:text-white px-4 py-2 rounded-xl transition text-xs";
+            });
+
+            const box = document.getElementById('mejora-content-box');
+
+            if (category === 'ergo') {
+                document.getElementById('btn-mejora-ergo').className = "mejora-tab-btn bg-orange-600 text-white font-semibold px-4 py-2 rounded-xl transition text-xs";
+                box.innerHTML = `
+                    <div class="p-5 rounded-2xl bg-rose-950/30 border border-rose-500/30 space-y-3">
+                        <div class="flex items-center justify-between border-b border-rose-500/20 pb-2">
+                            <span class="font-bold text-rose-400 text-sm">❌ ANTES: Ergonomía Subestándar</span>
+                            <span class="text-[10px] font-mono text-slate-400">Diagnóstico Inicial</span>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>Personal administrativo usando sillas fijas sin soporte lumbar ni regulación.</li>
+                            <li>Monitores de computadora por debajo del nivel de visión (flexión cervical).</li>
+                            <li>Cajas archivadoras bajo escritorios reduciendo espacio de piernas.</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-3">
+                        <div class="flex items-center justify-between border-b border-emerald-500/20 pb-2">
+                            <span class="font-bold text-emerald-400 text-sm">✅ DESPUÉS: Estándar R.M. 375-2008-TR</span>
+                            <span class="text-[10px] font-mono text-emerald-400">Implementado</span>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>Adquisición e instalación de sillas ergonómicas giratorias con apoyo lumbar.</li>
+                            <li>Soportes regulables para pantallas a la altura exacta de la vista.</li>
+                            <li>Despeje total bajo escritorios mediante archivadores laterales.</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (category === 'elec') {
+                document.getElementById('btn-mejora-elec').className = "mejora-tab-btn bg-orange-600 text-white font-semibold px-4 py-2 rounded-xl transition text-xs";
+                box.innerHTML = `
+                    <div class="p-5 rounded-2xl bg-rose-950/30 border border-rose-500/30 space-y-3">
+                        <div class="flex items-center justify-between border-b border-rose-500/20 pb-2">
+                            <span class="font-bold text-rose-400 text-sm">❌ ANTES: Cables Expuestos y Señales Opacas</span>
+                            <span class="text-[10px] font-mono text-slate-400">Diagnóstico Inicial</span>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>Cables eléctricos cruzando pasillos de circulación de oficinas y taller.</li>
+                            <li>Múltiples adaptadores tipo "pulpo" generando sobrecarga en tomacorrientes.</li>
+                            <li>Extintores de PQS obstruidos por estantes y cajas acumuladas.</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-3">
+                        <div class="flex items-center justify-between border-b border-emerald-500/20 pb-2">
+                            <span class="font-bold text-emerald-400 text-sm">✅ DESPUÉS: Norma CNE & NTP 399.010-1</span>
+                            <span class="text-[10px] font-mono text-emerald-400">Implementado</span>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>Canalización de cables en canaletas PVC ignífugas adheridas a pared.</li>
+                            <li>Eliminación de adaptadores y rotulación de tableros con señal de riesgo eléctrico.</li>
+                            <li>Demarcación de 1m² libre alrededor de extintores y señales fotoluminiscentes.</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (category === 'almacen') {
+                document.getElementById('btn-mejora-almacen').className = "mejora-tab-btn bg-orange-600 text-white font-semibold px-4 py-2 rounded-xl transition text-xs";
+                box.innerHTML = `
+                    <div class="p-5 rounded-2xl bg-rose-950/30 border border-rose-500/30 space-y-3">
+                        <div class="flex items-center justify-between border-b border-rose-500/20 pb-2">
+                            <span class="font-bold text-rose-400 text-sm">❌ ANTES: Armarios Inestables</span>
+                            <span class="text-[10px] font-mono text-slate-400">Diagnóstico Inicial</span>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>Estantes metálicos de archivo libres sin fijación a paredes (riesgo de volcadura sísmica).</li>
+                            <li>Cargas pesadas colocadas en la parte superior de los anaqueles.</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-3">
+                        <div class="flex items-center justify-between border-b border-emerald-500/20 pb-2">
+                            <span class="font-bold text-emerald-400 text-sm">✅ DESPUÉS: Fijación Antisísmica ISO 45001</span>
+                            <span class="text-[10px] font-mono text-emerald-400">Implementado</span>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>Anclaje perimetral de estantes metálicos a columnas de concreto mediante pernos de expansión.</li>
+                            <li>Reubicación de resmas de papel y archivadores pesados en repisas inferiores.</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (category === 'salud') {
+                document.getElementById('btn-mejora-salud').className = "mejora-tab-btn bg-orange-600 text-white font-semibold px-4 py-2 rounded-xl transition text-xs";
+                box.innerHTML = `
+                    <div class="p-5 rounded-2xl bg-rose-950/30 border border-rose-500/30 space-y-3">
+                        <div class="flex items-center justify-between border-b border-rose-500/20 pb-2">
+                            <span class="font-bold text-rose-400 text-sm">❌ ANTES: Ausencia de EPP Visita & Botiquín Vencido</span>
+                            <span class="text-[10px] font-mono text-slate-400">Diagnóstico Inicial</span>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>Visitantes e ingenieros ingresando a planta sin casco ni lentes.</li>
+                            <li>Botiquín de primeros auxilios incompleto y sin control de vencimientos.</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-3">
+                        <div class="flex items-center justify-between border-b border-emerald-500/20 pb-2">
+                            <span class="font-bold text-emerald-400 text-sm">✅ DESPUÉS: Estándar R.M. 050-2013-TR</span>
+                            <span class="text-[10px] font-mono text-emerald-400">Implementado</span>
+                        </div>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li>Estación fija con cascos blancos, chalecos y gafas de seguridad para visitas.</li>
+                            <li>Botiquín acrílico adosado equipado según R.M. 050 con kardex de inspección mensual.</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        // ==========================================
+        // REAL PDF GENERATION ENGINE (jsPDF + AutoTable)
+        // ==========================================
+        function downloadDocumentPDF(docType) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Institutional Corporate Header
+            doc.setFillColor(15, 23, 42); // slate-900
+            doc.rect(0, 0, 210, 32, 'F');
+
+            doc.setTextColor(234, 88, 12); // Orange
+            doc.setFont('Helvetica', 'bold');
+            doc.setFontSize(16);
+            doc.text('PROYECTOS FINOX E.I.R.L.', 14, 15);
+
+            doc.setFontSize(9);
+            doc.setTextColor(203, 213, 225); // Slate 300
+            doc.text('RUC: 20607750211 | Jr. José Villanueva Mza. E Lote 1, Chontapaccha Alta, Cajamarca', 14, 22);
+            doc.text('Sistema de Gestión de Seguridad y Salud en el Trabajo (ISO 45001:2018 / Ley N° 29783)', 14, 27);
+
+            let docTitle = "";
+            let codeStr = "";
+
+            if (docType === 'IPERC') {
+                docTitle = "MATRIZ IPERC DE SOLDEO Y CORTE (EXCEL OFICIAL)";
+                codeStr = "FINOX-SSOMA-MT03.01";
+                
+                doc.setFontSize(12);
+                doc.setTextColor(15, 23, 42);
+                doc.text(docTitle, 14, 42);
+                doc.setFontSize(9);
+                doc.setTextColor(100);
+                doc.text(`Código: ${codeStr} | Versión: 01 | Fecha: 16/09/2026`, 14, 47);
+
+                const tableData = ipercDataExcel.map(item => [
+                    item.id,
+                    item.actividad.substring(0, 22) + '...',
+                    item.peligro.substring(0, 30) + '...',
+                    item.riesgo.substring(0, 25) + '...',
+                    `${item.p}x${item.s}=${item.score}`,
+                    item.level,
+                    item.control.substring(0, 35) + '...'
+                ]);
+
+                doc.autoTable({
+                    startY: 52,
+                    head: [['N°', 'Actividad', 'Peligro', 'Riesgo', 'P×S', 'Nivel', 'Control Recomendado']],
+                    body: tableData,
+                    theme: 'grid',
+                    headStyles: { fillStyle: 'F', fillColor: [15, 23, 42], textColor: [255, 255, 255], fontStyle: 'bold' },
+                    styles: { fontSize: 7, cellPadding: 2 }
+                });
+
+            } else if (docType === 'PR03.02') {
+                docTitle = "PETS - SOLDADURA 6G, CORTE Y ESMERILADO";
+                codeStr = "FINOX-SSOMA-PR03.02";
+
+                doc.setFontSize(12);
+                doc.setTextColor(15, 23, 42);
+                doc.text(docTitle, 14, 42);
+                doc.setFontSize(9);
+                doc.setTextColor(100);
+                doc.text(`Código: ${codeStr} | Versión: 01 | Puestos: Soldadores y Ayudantes`, 14, 47);
+
+                doc.autoTable({
+                    startY: 52,
+                    head: [['Sección PETS', 'Contenido Técnico Aprobado']],
+                    body: [
+                        ['1. OBJETIVO', 'Establecer los pasos seguros para evitar incendios, electrocución y proyecciones en soldeo/corte.'],
+                        ['2. ALCANCE', 'Aplica a todo el personal operativo de taller y proyectos de montaje en Cajamarca.'],
+                        ['3. EPP OBLIGATORIO', 'Careta de soldar multiproceso, respirador filtro 2097, mandil cromo, guantes largos y calzado dieléctrico.'],
+                        ['4. PASO 1: CORTE', 'Inspeccionar aislamientos de cables (P×S=150), colocar guarda en amoladora y retirar combustibles en 11m.'],
+                        ['5. PASO 2: SOLDEO', 'Usar biombos ignífugos, extractor de humos (P×S=40) y aplicar pausas ergonómicas (P×S=20).']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [234, 88, 12] },
+                    styles: { fontSize: 8 }
+                });
+
+            } else if (docType === 'F05') {
+                docTitle = "REGISTRO DE INDUCCIÓN SST (FINOX-F-05)";
+                codeStr = "FINOX-F-05";
+
+                doc.setFontSize(12);
+                doc.setTextColor(15, 23, 42);
+                doc.text(docTitle, 14, 42);
+                doc.setFontSize(9);
+                doc.setTextColor(100);
+                doc.text(`Fecha: 07/02/2025 | Duración: 2 Horas | Capacitador: Ing. Elder Manuel Rafael Menchan`, 14, 47);
+
+                doc.autoTable({
+                    startY: 52,
+                    head: [['N°', 'Trabajador Capacitado', 'DNI', 'Cargo Operativo', 'Estado Firmado']],
+                    body: [
+                        ['1', 'Wilson Huamán Peralta', '70551526', 'Soldador Multiproceso', 'ASISTIÓ Y FIRMÓ'],
+                        ['2', 'Edward Sangay Sangay', '71337982', 'Armador Calderero', 'ASISTIÓ Y FIRMÓ'],
+                        ['3', 'Alcides Milon Leon', '60228336', 'Oficial Soldador', 'ASISTIÓ Y FIRMÓ'],
+                        ['4', 'Segundo Sosa Córdova', '70496944', 'Ayudante de Taller', 'ASISTIÓ Y FIRMÓ'],
+                        ['5', 'Alexander Ramos Mendoza', '72019550', 'Pintor Metalmecánico', 'ASISTIÓ Y FIRMÓ']
+                    ],
+                    theme: 'grid',
+                    headStyles: { fillColor: [15, 23, 42] },
+                    styles: { fontSize: 8 }
+                });
+
+            } else {
+                docTitle = "DOCUMENTO GENERAL DEL SGSST FINOX";
+                codeStr = "FINOX-SSOMA-DOC";
+
+                doc.setFontSize(12);
+                doc.setTextColor(15, 23, 42);
+                doc.text(docTitle, 14, 42);
+                doc.setFontSize(9);
+                doc.setTextColor(100);
+                doc.text(`Código: ${codeStr} | Versión: 01`, 14, 47);
+
+                doc.autoTable({
+                    startY: 52,
+                    head: [['Parámetro', 'Valor Registrado']],
+                    body: [
+                        ['Empresa', 'PROYECTOS FINOX E.I.R.L.'],
+                        ['RUC', '20607750211'],
+                        ['Norma', 'ISO 45001:2018 / Ley N° 29783'],
+                        ['Representante Legal', 'Wilmer Herrera Bardales']
+                    ],
+                    theme: 'grid',
+                    headStyles: { fillColor: [15, 23, 42] }
+                });
+            }
+
+            // Document Signatures Footer
+            const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 25 : 180;
+            
+            doc.setDrawColor(150);
+            doc.line(20, finalY, 80, finalY);
+            doc.line(130, finalY, 190, finalY);
+
+            doc.setFontSize(8);
+            doc.setTextColor(80);
+            doc.text('Wilmer Herrera Bardales', 30, finalY + 5);
+            doc.text('Gerente General FINOX', 32, finalY + 9);
+
+            doc.text('Ing. Luz Portal Huamán', 142, finalY + 5);
+            doc.text('Supervisor SSOMA (CIP 266004)', 138, finalY + 9);
+
+            // Save PDF
+            doc.save(`${codeStr}_PROYECTOS_FINOX.pdf`);
+            showToast(`Documento ${codeStr} descargado en PDF exitosamente`, "success");
+        }
+
+        // PREVIEW MODAL HELPER
+        function openDocPreviewModal(docType) {
+            const codeEl = document.getElementById('doc-modal-code');
+            const titleEl = document.getElementById('doc-modal-title');
+            const hTitleEl = document.getElementById('doc-modal-header-title');
+            const bodyEl = document.getElementById('doc-modal-body');
+            const downloadBtn = document.getElementById('doc-modal-download-btn');
+
+            downloadBtn.onclick = () => downloadDocumentPDF(docType);
+
+            if (docType === 'PR03.02') {
+                codeEl.innerText = "FINOX-SSOMA-PR03.02";
+                titleEl.innerText = "PETS Soldadura, Corte y Esmerilado";
+                hTitleEl.innerText = "PROCEDIMIENTO ESCRITO DE TRABAJO SEGURO (PETS)";
+                bodyEl.innerHTML = `
+                    <p><strong>1. Objetivo:</strong> Prevenir descargas eléctricas (cables deteriorados P×S=150), incendios por chispas (P×S=40) e inhalación de humos.</p>
+                    <p><strong>2. EPPS:</strong> Careta 6G, respirador filtro 2097, mandil de cuero cromo, guantes de soldeo y botas dieléctricas.</p>
+                    <p><strong>3. Controles:</strong> Verificación de guarda en amoladoras, biombos ignífugos en bahía y pausas ergonómicas REBA.</p>
+                `;
+            } else if (docType === 'PR03.01') {
+                codeEl.innerText = "FINOX-SSOMA-PR03.01";
+                titleEl.innerText = "Investigación de Accidentes";
+                hTitleEl.innerText = "PROCEDIMIENTO DE INVESTIGACIÓN DE INCIDENTES Y ACCIDENTES";
+                bodyEl.innerHTML = `
+                    <p><strong>1. Alcance:</strong> Reporte inmediato a Gerencia y MINTRA dentro de las 24h para accidentes mortales.</p>
+                    <p><strong>2. Archivo:</strong> Registros e informes de investigación se conservan archivados por 10 años.</p>
+                `;
+            } else if (docType === 'IN03.02') {
+                codeEl.innerText = "FINOX-SSOMA-IN03.02";
+                titleEl.innerText = "Informe Ergonómico REBA";
+                hTitleEl.innerText = "INFORME DE EVALUACIÓN ERGONÓMICA DE PUESTO DE TRABAJO";
+                bodyEl.innerHTML = `
+                    <p><strong>1. Puesto Evaluado:</strong> Ayudante de Soldadura y Montaje.</p>
+                    <p><strong>2. Resultado:</strong> Puntuación C = 4 (Nivel de Riesgo Medio). Se requiere implementación de soportes regulables y pausas activas.</p>
+                `;
+            } else if (docType === 'PL03.01') {
+                codeEl.innerText = "FINOX-SSOMA-PL03.01";
+                titleEl.innerText = "Plan Anual de SST 2027";
+                hTitleEl.innerText = "PLAN Y PROGRAMA ANUAL DE SEGURIDAD Y SALUD EN EL TRABAJO";
+                bodyEl.innerHTML = `
+                    <p><strong>1. Presupuesto:</strong> S/ 6,000.00 distribuidos en 10 partidas operativas.</p>
+                    <p><strong>2. Meta:</strong> Mantener IF = 0.00 y lograr 100% de capacitaciones e inspecciones 5S.</p>
+                `;
+            }
+
+            openModal('modal-doc-viewer');
+        }
+
+        // CHART PRESUPUESTO
+        function initChartPresupuesto() {
+            const ctx = document.getElementById('chartPresupuesto').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['EPP', 'EMOs', 'Trab. Caliente', 'Extintores', 'Capacitación', 'Inspección', 'Simulacros', 'IPERC', 'Gestión Doc.', 'Auditorías'],
+                    datasets: [{
+                        label: 'Monto Asignado (S/)',
+                        data: [1500, 1200, 700, 650, 600, 350, 350, 250, 200, 200],
+                        backgroundColor: '#ea580c',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } },
+                        y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
+                    }
+                }
+            });
+        }
+
+        // UTILITY HELPERS
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center gap-3 p-4 rounded-xl border shadow-xl text-xs font-semibold text-white transition-all duration-300 transform translate-y-2 ${type === 'success' ? 'bg-emerald-950/90 border-emerald-500' : 'bg-rose-950/90 border-rose-500'}`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-triangle-exclamation text-rose-400'} text-lg"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-4');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
